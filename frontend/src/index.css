@@ -1,0 +1,84 @@
+/* ...fonts... */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+/* ...fonts... */
+
+/* ...global... */
+
+:root {
+  /* ...main-colors... */
+  --black: #000000;
+  --white: #ffffff;
+  --yellow: #feee00; /* Noon Yellow */
+  --blue: #3866df;
+  --green: #38ae04;
+  --red: #de0b0b;
+  --orange: #f5a523;
+  --light-gray: #7e859b; /* Updated gray */
+  --dark-gray: #404553;
+  
+  /* ...bg-colors... */
+  --overlay: rgba(0, 0, 0, 0.5);
+  --bg01: #fff9f4;
+  --bg02: #fcfbf4;
+  --bg03: #f7f7fa; /* Light grey background common in noon */
+  --bg04: #fcf8e0;
+  
+  /* ...other variables... */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --ar-font: 'Cairo', sans-serif;
+  --en-font: 'Proxima Nova', 'Helvetica Neue', Arial, sans-serif; /* Noon uses Proxima Nova or similar clean sans */
+  --shadow01: 0 2px 4px 0 rgba(0,0,0,.05);
+  --shadow02: 0 4px 8px 0 rgba(0,0,0,.1);
+}
+
+html {
+  height: 100%;
+  font-size: 16px;
+}
+
+body {
+  height: 100%;
+  font-family: 'Cairo', sans-serif; /* Defaulting to Cairo for bilingual support or fallbacks */
+  background-color: var(--bg03);
+  padding-bottom: 6em;
+  overflow-x: hidden;
+}
+
+p {
+  max-width: 100%;
+}
+
+a {
+  display: flex;
+  align-items: center;
+}
+
+/* .................................................. */
+
+/* ...Media Queries... */
+
+/* .................................................. */
+/* Small Screen  */
+@media screen and (max-width: 768px) {
+    html {
+      font-size: 12px;
+    }
+}
+/* .................................................. */
+/* Medium Screen  */
+@media (min-width: 769px) and (max-width: 992px) {
+    html {
+      font-size: 14px;
+    } 
+}
+/* .................................................. */
+/* Large Screen  */
+@media (min-width: 993px) {
+    html {
+      font-size: 16px;
+    }
+}
+
+
+

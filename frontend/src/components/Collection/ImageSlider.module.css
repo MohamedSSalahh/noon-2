@@ -1,0 +1,50 @@
+.main_container {
+   position: relative;
+   margin-top: 30px;
+   border-top-left-radius: 10px;
+   border-top-right-radius: 10px;
+}
+
+.main_container button {
+    width: 3vw;
+    height: 3vw;
+    border: none;
+    outline: none;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    opacity: 0.5;
+    z-index: 9;
+} 
+
+.main_container button  i {
+    font-size: 1vw;
+}
+
+.main_container button:first-of-type {
+    left: 30px;
+}
+
+.main_container button:nth-of-type(2) {
+    right: 30px;
+}
+
+
+/* ......................................... */
+
+/* ...Media Queries... */
+
+/* .................................................. */
+
+/* Small Screen  */
+@media screen and (max-width: 992px) {
+    .main_container button {
+        display: none;
+    }
+}
+

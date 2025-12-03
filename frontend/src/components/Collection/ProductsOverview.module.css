@@ -1,0 +1,198 @@
+
+.main_container {
+    margin: 100px 0;
+    /* background-color: var(--white); */
+    /* padding: 30px; */
+    position: relative;
+}
+
+.main_container .scroll_btn {
+    width: 80px;
+    height: 80px;
+    border: none;
+    outline: none;
+    background-color: var(--bg03);
+    border-radius: 50%;
+    position: absolute;
+    top: 55%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 2;
+    transition: 0.3s all ease;
+}
+
+/* .main_container .scroll_btn:hover {
+    background-color: var(--dark-gray);
+} */
+
+.main_container .scroll_btn i {
+    transform: translateX(13px);
+}
+
+.main_container .scroll_btn:nth-of-type(2) {
+    right: -80px;
+}
+
+.main_container .scroll_btn:nth-of-type(2) i {
+    transform: translateX(-13px);
+}
+
+.main_container .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.main_container .header h2 {
+    font-size: 1.4rem;
+    width: 75%;
+    color: var(--dark-gray);
+}
+
+.main_container .header button {
+    white-space: nowrap;
+    outline: none;
+    border: none;
+    color: var(--blue);
+    background-color: transparent;
+    text-decoration: underline;
+    padding: 0;
+    font-weight: 700;
+    font-size: 0.7rem;
+    cursor: pointer;
+}
+
+.main_container .products_container {
+    height: 28em;
+    /* padding: 0 60px; */
+    display: flex;
+    gap: 30px;
+    overflow-x: scroll;
+    scroll-behavior: smooth;
+}
+
+.main_container .products_container::-webkit-scrollbar {
+    display: none;
+}
+
+.main_container .product_container {
+    min-width: 300px;
+    position: relative;
+    padding: 0 20px 10px;
+    background-color: var(--white);
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.main_container .product_container .product_img_container {
+    width: 100%;
+    height: 60%;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product_img_container img {
+    min-width: 30%;
+    max-width: 50%;
+}
+
+.main_container .product_container p {
+    width: 100%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-weight: 300;
+    font-size: 14px;
+}
+
+.new_price_container {
+    margin-top: 10px;
+    font-size: 1.2rem;
+    font-weight: 300;
+}
+
+.new_price_container span {
+    margin-left: 10px;
+    font-weight: 600;
+    color: var(--dark-gray);
+}
+
+.old_price_container {
+    font-size: 0.8rem;
+}
+
+
+.old_price_container span:first-of-type {
+    margin-left: 10px;
+    text-decoration: line-through;
+}
+
+.old_price_container span:nth-of-type(2) {
+    color: var(--green);
+    font-weight: 700;
+    margin-left: 10px;
+}
+
+.main_container .product_container .product_footer {
+    width: calc(100% - 40px);
+    position: absolute;
+    bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
+}
+
+.main_container .product_container .product_footer img {
+    width: 60px;
+}
+
+.main_container .product_container .product_footer i, 
+.main_container .product_container .product_footer span:first-of-type {
+    color: var(--orange);
+    margin: 0 2px;
+    font-weight: 700;
+}
+
+.main_container .product_container .product_footer span:nth-of-type(2) {
+    color: var(--light-gray);
+    font-size: 10px;
+}
+
+/* ......................................... */
+
+/* ...Media Queries... */
+
+/* .................................................. */
+/* Small Screen  */
+@media screen and (max-width: 992px) {
+    .main_container {
+        margin: 60px 0;
+    }
+    .main_container .scroll_btn {
+        width: 50px;
+        height: 50px;
+        opacity: 0.7;
+    }
+    .main_container .scroll_btn:nth-of-type(2) {
+        right: -50px;
+    }
+    .main_container .scroll_btn:nth-of-type(2) i {
+        transform: translateX(-7px);
+    }
+    .main_container .scroll_btn i {
+        font-size: 0.8rem;
+        transform: translateX(7px);
+    }
+    .main_container .products_container {
+        padding: 0;
+    }
+}
+
+
