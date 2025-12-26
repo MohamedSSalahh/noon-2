@@ -15,12 +15,23 @@ export const routes: Routes = [
       {
         path: 'products',
         loadComponent: () => import('./features/product/product-list/product-list').then(m => m.ProductList)
+      }
+    ]
+  },
+  {
+    path: 'admin',
+    loadComponent: () => import('./features/admin/layouts/admin-layout/admin-layout.component').then(m => m.AdminLayoutComponent),
+    canActivate: [() => inject(AuthGuard).canActivate()],
+    children: [
+      {
+        path: 'dashboard',
+        loadComponent: () => import('./features/admin/pages/dashboard/dashboard.component').then(m => m.AdminDashboardComponent)
       },
       {
-        path: 'admin',
-        loadComponent: () => import('./features/admin/admin-dashboard/admin-dashboard').then(m => m.AdminDashboard),
-        canActivate: [() => inject(AuthGuard).canActivate()] // Guarding the route
-      }
+        path: 'products',
+        loadComponent: () => import('./features/admin/pages/dashboard/dashboard.component').then(m => m.AdminDashboardComponent) // Placeholder
+      },
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   },
   {
