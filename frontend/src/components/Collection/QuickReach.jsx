@@ -1,18 +1,39 @@
 import React from 'react';
 import Image from '../Product/Image';
-
+import { Box, Grid, Card, CardActionArea } from '@mui/material';
 
 const QuickReach = ({ quickReach }) => {
-  if (quickReach) return (
-    <div className="bg-white py-6 my-6">
-          <div className="grid grid-cols-3 md:grid-cols-6 gap-4 max-w-[1440px] mx-auto px-4 lg:px-8">
-              {quickReach.imgs.map(imgURL => (
-                <div key={imgURL} className="aspect-square rounded-xl overflow-hidden cursor-pointer transform hover:scale-105 transition-all duration-300 hover:shadow-lg border border-transparent hover:border-gray-100">
-                    <Image imgSrc={imgURL} className="w-full h-full object-cover" />
-                </div>
-              ))}
-          </div>
-      </div>
+  if (!quickReach) return null;
+
+  return (
+    <Box sx={{ py: 3, my: 3, bgcolor: 'background.paper' }}>
+        <Grid container spacing={2} sx={{ maxWidth: 1440, mx: 'auto', px: { xs: 2, lg: 4 } }}>
+            {quickReach.imgs.map(imgURL => (
+                <Grid size={{ xs: 4, md: 2 }} key={imgURL}>
+                    <Card sx={{ borderRadius: 3, boxShadow: 'none', border: '1px solid', borderColor: 'transparent', '&:hover': { borderColor: 'divider', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' } }}>
+                        <CardActionArea sx={{ p: 1 }}>
+                             <Box sx={{ position: 'relative', pt: '100%' }}>
+                                <Box 
+                                    component={Image} 
+                                    imgSrc={imgURL} 
+                                    sx={{ 
+                                        position: 'absolute', 
+                                        top: 0, 
+                                        left: 0, 
+                                        width: '100%', 
+                                        height: '100%', 
+                                        objectFit: 'cover',
+                                        borderRadius: 2 
+                                    }} 
+                                    alt="Category"
+                                />
+                             </Box>
+                        </CardActionArea>
+                    </Card>
+                </Grid>
+            ))}
+        </Grid>
+    </Box>
   )
 }
 

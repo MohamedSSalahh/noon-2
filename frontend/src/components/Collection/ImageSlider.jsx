@@ -4,15 +4,27 @@ import { Navigation, Autoplay, Pagination } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import { Box, IconButton, useTheme } from '@mui/material';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 const ImageSlider = ({ slider }) => {
     const navigationPrevRef = useRef(null);
     const navigationNextRef = useRef(null);
+    const theme = useTheme();
 
     if (!slider) return null;
 
     return (
-        <div className="w-full relative group md:px-8 mt-4">
+        <Box sx={{ 
+            width: '100%', 
+            position: 'relative', 
+            mt: 2,
+            '&:hover .swiper-button-custom': {
+                opacity: 1,
+                visibility: 'visible'
+            }
+        }}>
              <Swiper
                 modules={[Navigation, Autoplay, Pagination]}
                 spaceBetween={0}
@@ -27,22 +39,70 @@ const ImageSlider = ({ slider }) => {
                     swiper.params.navigation.prevEl = navigationPrevRef.current;
                     swiper.params.navigation.nextEl = navigationNextRef.current;
                 }}
-                className="w-full h-[200px] md:h-[300px] lg:h-[400px]"
+                style={{ 
+                    width: '100%', 
+                    borderRadius: theme.shape.borderRadius,
+                    overflow: 'hidden',
+                }}
             >
                 { slider.sliderImgs.map((img, index) => (
                     <SwiperSlide key={index}>
-                        <img src={img} alt={`Banner ${index + 1}`} className="w-full h-full object-cover md:rounded-lg" />
+                        <Box 
+                            component="img"
+                            src={img} 
+                            alt={`Banner ${index + 1}`} 
+                            sx={{ 
+                                width: '100%', 
+                                height: { xs: '200px', md: '300px', lg: '400px' }, 
+                                objectFit: 'cover' 
+                            }} 
+                        />
                     </SwiperSlide>
                 )) }
             </Swiper>
             
-            <button ref={navigationPrevRef} className="absolute top-1/2 left-4 z-10 -translate-y-1/2 w-12 h-12 bg-white shadow-card rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-105 text-noon-black">
-                <i className="fa-solid fa-chevron-left text-lg"></i>
-            </button>
-            <button ref={navigationNextRef} className="absolute top-1/2 right-4 z-10 -translate-y-1/2 w-12 h-12 bg-white shadow-card rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-105 text-noon-black">
-                <i className="fa-solid fa-chevron-right text-lg"></i>
-            </button>
-        </div>
+            <IconButton 
+                ref={navigationPrevRef}
+                className="swiper-button-custom"
+                sx={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: 16,
+                    transform: 'translateY(-50%)',
+                    zIndex: 10,
+                    bgcolor: 'background.paper',
+                    color: 'text.primary',
+                    boxShadow: 2,
+                    opacity: 0,
+                    visibility: 'hidden',
+                    transition: 'opacity 0.3s, visibility 0.3s, transform 0.2s',
+                    '&:hover': { bgcolor: 'background.paper', transform: 'translateY(-50%) scale(1.1)' }
+                }}
+            >
+                <ChevronLeftIcon fontSize="large" />
+            </IconButton>
+
+            <IconButton 
+                ref={navigationNextRef}
+                className="swiper-button-custom"
+                sx={{
+                    position: 'absolute',
+                    top: '50%',
+                    right: 16,
+                    transform: 'translateY(-50%)',
+                    zIndex: 10,
+                    bgcolor: 'background.paper',
+                    color: 'text.primary',
+                    boxShadow: 2,
+                    opacity: 0,
+                    visibility: 'hidden',
+                    transition: 'opacity 0.3s, visibility 0.3s, transform 0.2s',
+                    '&:hover': { bgcolor: 'background.paper', transform: 'translateY(-50%) scale(1.1)' }
+                }}
+            >
+                <ChevronRightIcon fontSize="large" />
+            </IconButton>
+        </Box>
     );
 }
 

@@ -1,62 +1,146 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate, Link } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 import { fetchCategories } from "../../redux/slices/categorySlice";
+import { Box, Container, Typography, Menu, MenuItem, Button, styled } from '@mui/material';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+
+const NavLink = styled(RouterLink)(({ theme }) => ({
+    textDecoration: 'none',
+    color: theme.palette.text.secondary,
+    fontWeight: 700,
+    fontSize: '0.8125rem', // 13px
+    textTransform: 'uppercase',
+    whiteSpace: 'nowrap',
+    transition: 'color 0.2s',
+    '&:hover': {
+        color: theme.palette.primary.main, // Noon yellow or blue? Noon usually uses blue for links, yellow for primary actions. Sticking to theme primary for now or custom blue.
+    }
+}));
 
 const CategoryNav = () => {
     const { categories } = useSelector((state) => state.categoryState);
     const dispatch = useDispatch();
-    const navigate = useNavigate();
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
 
     useEffect(() => {
         dispatch(fetchCategories());
     }, [dispatch]);
 
-    return (
-        <div className="bg-white border-b border-gray-100 w-full block md:sticky md:top-16 z-40 transition-all duration-300 shadow-sm">
-            <div className="max-w-[1440px] mx-auto px-4 relative">
-                <ul className="flex items-center list-none h-12 gap-4 px-2 lg:px-0">
-                    {/* ALL CATEGORIES DROPDOWN */}
-                    <li className="group font-bold text-[13px] text-noon-blue cursor-pointer flex items-center h-full relative z-50">
-                        <Link to="/" className="flex items-center h-full pr-4 lg:border-r border-gray-200 hover:text-noon-blue/80 transition-colors">
-                            ALL CATEGORIES
-                            <i className="fas fa-chevron-down ml-2 text-[10px] transition-transform duration-300 group-hover:-rotate-180"></i>
-                        </Link>
+    const handleMenuOpen = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
 
-                        {/* Dropdown Menu */}
-                        <div className="absolute top-full left-0 w-64 bg-white shadow-[0_10px_40px_rgba(0,0,0,0.1)] rounded-b-lg border-x border-b border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-in-out py-2 z-50">
-                            <ul className="flex flex-col max-h-[400px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent">
-                                {categories && categories.map((category) => (
-                                    <Link 
-                                        key={category._id || category.id} 
-                                        to={`/${category.title || category.name}`}
-                                        className="px-6 py-2.5 hover:bg-gray-50 transition-colors flex items-center justify-between group/item text-decoration-none"
-                                    >
-                                        <span className="text-sm font-medium text-gray-700 group-hover/item:text-noon-blue capitalize">
-                                            {(category.title || category.name || '').toLowerCase()}
-                                        </span>
-                                        <i className="fas fa-chevron-right text-[10px] text-gray-300 group-hover/item:text-noon-blue"></i>
-                                    </Link>
-                                ))}
-                            </ul>
-                        </div>
-                    </li>
+    const handleMenuClose = () => {
+        setAnchorEl(null);
+    };
+
+    return (
+        <Box sx={{ 
+            bgcolor: 'background.paper', 
+            borderBottom: 1, 
+            borderColor: 'divider', 
+            position: { md: 'sticky' }, 
+            top: { md: 64, lg: 70 }, // Height of main header
+            zIndex: 1000,
+            boxShadow: '0 1px 2px rgba(0,0,0,0.02)'
+        }}>
+            <Container maxWidth="xl" sx={{ px: { xs: 2, lg: 4 } }}>
+                 <Box sx={{ display: 'flex', alignItems: 'center', height: 48, gap: 4 }}>
+                    {/* ALL CATEGORIES DROPDOWN */}
+                    <Box 
+                        onMouseEnter={handleMenuOpen} 
+                        onMouseLeave={handleMenuClose}
+                        sx={{ height: '100%', display: 'flex', alignItems: 'center' }}
+                    >
+                         <Button
+                            color="primary"
+                            endIcon={<KeyboardArrowDownIcon sx={{ 
+                                transition: 'transform 0.3s', 
+                                transform: open ? 'rotate(180deg)' : 'rotate(0deg)' 
+                            }} />}
+                            sx={{ 
+                                fontWeight: 700, 
+                                fontSize: '0.8125rem',
+                                color: 'primary.dark', // Use a darker shade for visibility
+                                whiteSpace: 'nowrap',
+                                px: 0,
+                                minWidth: 'auto',
+                                mr: 2,
+                                borderRight: 1,
+                                borderColor: 'divider',
+                                pr: 2,
+                                height: '24px',
+                                borderRadius: 0
+                            }}
+                            component={RouterLink}
+                            to="/"
+                        >
+                            ALL CATEGORIES
+                        </Button>
+
+                        <Menu
+                            anchorEl={anchorEl}
+                            open={open}
+                            onClose={handleMenuClose}
+                            MenuListProps={{ 
+                                onMouseEnter: () => setAnchorEl(anchorEl), // Keep open when hovering menu
+                                onMouseLeave: handleMenuClose 
+                            }}
+                            PaperProps={{
+                                sx: {
+                                    mt: 0,
+                                    width: 250,
+                                    maxHeight: 400,
+                                    boxShadow: 4,
+                                    borderRadius: '0 0 8px 8px'
+                                }
+                            }}
+                            disableScrollLock
+                        >
+                            {categories && categories.map((category) => (
+                                <MenuItem 
+                                    key={category._id || category.id} 
+                                    component={RouterLink} 
+                                    to={`/${category.title || category.name}`}
+                                    onClick={handleMenuClose}
+                                    sx={{ justifyContent: 'space-between', fontSize: '0.875rem', py: 1.5 }}
+                                >
+                                    <Box component="span" sx={{ textTransform: 'capitalize' }}>
+                                        {(category.title || category.name || '').toLowerCase()}
+                                    </Box>
+                                    <ChevronRightIcon fontSize="small" color="disabled" />
+                                </MenuItem>
+                            ))}
+                        </Menu>
+                    </Box>
 
                     {/* Horizontal Scrollable List */}
-                    <div className="flex-1 overflow-x-auto scrollbar-hide flex items-center gap-6 h-full mask-linear-fade">
+                    <Box sx={{ 
+                        flex: 1, 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        gap: 3, 
+                        overflowX: 'auto', 
+                        height: '100%',
+                        '&::-webkit-scrollbar': { display: 'none' },
+                        msOverflowStyle: 'none',
+                        scrollbarWidth: 'none'
+                    }}>
                         {categories && categories.map((category) => (
-                            <Link 
+                            <NavLink 
                                 key={`nav-${category._id || category.id}`}
                                 to={`/${category.title || category.name}`}
-                                className="text-[13px] font-bold text-gray-600 cursor-pointer whitespace-nowrap uppercase transition-colors duration-200 shrink-0 hover:text-noon-blue flex items-center h-full"
                             >
                                 {(category.title || category.name || '').toUpperCase()}
-                            </Link>
+                            </NavLink>
                         ))}
-                    </div>
-                </ul>
-            </div>
-        </div>
+                    </Box>
+                 </Box>
+            </Container>
+        </Box>
     );
 };
 

@@ -1,6 +1,5 @@
 import React, { lazy, Suspense, useEffect } from "react";
 import ImageSlider from "../Collection/ImageSlider";
-
 import { useDispatch, useSelector } from "react-redux";
 import QuickReach from "../Collection/QuickReach";
 import { getSlider } from "../../apis/sliders";
@@ -8,6 +7,7 @@ import { getQuickReach } from "../../apis/quickReachs";
 import { getAllDealsProducts, getHotDealsProducts } from "../../apis/products";
 import Spinner from "../Spinner/Spinner";
 import BrandsSection from "./BrandsSection";
+import { Box, Container, Stack } from '@mui/material';
 
 const Home = () => {
   
@@ -17,7 +17,6 @@ const Home = () => {
     );
   });
   
-
   const slider = useSelector(({ collectionState }) => collectionState.sliders["home"]);
   const quickReach = useSelector(({ collectionState }) => collectionState.quickReachs["home"]);
   const deals = useSelector(({ collectionState }) => collectionState.deals);
@@ -36,19 +35,21 @@ const Home = () => {
   }, [dispatch]);
 
   return (
-      <div className="bg-noon-gray-100 min-h-screen pb-12">
+      <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', pb: 8 }}>
           <Suspense fallback={<Spinner />}>
-            <div className="max-w-[1440px] mx-auto">
+            <Container maxWidth="xl" disableGutters sx={{ px: { xs: 2, lg: 4 } }}>
                 <ImageSlider slider={slider} />       
+                
                 <QuickReach quickReach={quickReach} />
+                
                 <BrandsSection />
-                <div className="px-4 lg:px-8 space-y-12">
+                
+                <Stack spacing={6}>
                     { renderProductsOverviews() } 
-                </div>
-            </div>
+                </Stack>
+            </Container>
           </Suspense>
-             
-      </div>
+      </Box>
   );
 };
 

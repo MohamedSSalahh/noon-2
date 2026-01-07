@@ -60,8 +60,10 @@ function App() {
 
   return (
     <div className="App">
-        <ToastContainer position="top-right" autoClose={3000} />
-        <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+        <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <ToastContainer position="top-right" autoClose={3000} />
+            <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
             <Header />
             <CategoryNav />
             <ChatWidget />
@@ -134,10 +136,15 @@ function App() {
                 <Route path="/:categoryTitle/" element={<Category />} />
                 <Route path="/:catTitle/:subID/:productID/" element={<Product />} />
             </Routes>
-            <Footer />
-        </BrowserRouter>
+                <Footer />
+            </BrowserRouter>
+        </ThemeProvider>
     </div>
   );
 }
+
+import { ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import theme from '../../theme';
 
 export default App;

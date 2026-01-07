@@ -1,77 +1,92 @@
 import React from 'react';
-
+import { Box, Container, Grid, Typography, Link, IconButton, Stack } from '@mui/material';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
 
 const Footer = () => {
+    
+    // Helper for footer links to keep code clean
+    const FooterLink = ({ children }) => (
+        <Link 
+            href="#" 
+            underline="none" 
+            color="text.secondary" 
+            sx={{ 
+                display: 'block', 
+                fontSize: '0.875rem', 
+                mb: 1, 
+                '&:hover': { color: 'text.primary' } 
+            }}
+        >
+            {children}
+        </Link>
+    );
+
+    const FooterSection = ({ title, links }) => (
+        <Box>
+            <Typography variant="subtitle2" sx={{ fontWeight: 700, textTransform: 'uppercase', mb: 2 }}>
+                {title}
+            </Typography>
+            {links.map((link) => (
+                <FooterLink key={link}>{link}</FooterLink>
+            ))}
+        </Box>
+    );
+
     return (
-        <footer className="bg-white border-t border-gray-200 pt-12 pb-6 mt-auto">
-            <div className="max-w-[1440px] mx-auto px-4 lg:px-8 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 mb-12">
-                <div className="space-y-4">
-                    <h3 className="font-bold text-noon-black text-sm uppercase tracking-wide">We're Always Here To Help</h3>
-                    <ul className="space-y-2 text-sm text-noon-gray-500">
-                        <li className="hover:text-noon-black cursor-pointer transition-colors">Help Center</li>
-                        <li className="hover:text-noon-black cursor-pointer transition-colors">Contact Us</li>
-                    </ul>
-                </div>
+        <Box component="footer" sx={{ bgcolor: 'background.paper', pt: 6, pb: 3, mt: 'auto', borderTop: '1px solid', borderColor: 'divider' }}>
+            <Container maxWidth="xl">
+                <Grid container spacing={4} sx={{ mb: 6 }}>
+                    <Grid size={{ xs: 12, sm: 6, md: 4, lg: 2.4 }}>
+                        <FooterSection 
+                            title="We're Always Here To Help" 
+                            links={["Help Center", "Contact Us"]} 
+                        />
+                    </Grid>
+                    <Grid size={{ xs: 12, sm: 6, md: 4, lg: 2.4 }}>
+                        <FooterSection 
+                            title="Fabrics" 
+                            links={["Cotton", "Silk", "Wool", "Linen", "Velvet"]} 
+                        />
+                    </Grid>
+                    <Grid size={{ xs: 12, sm: 6, md: 4, lg: 2.4 }}>
+                        <FooterSection 
+                            title="Yarns & Threads" 
+                            links={["Embroidery", "Knitting", "Crochet", "Sewing Threads"]} 
+                        />
+                    </Grid>
+                    <Grid size={{ xs: 12, sm: 6, md: 4, lg: 2.4 }}>
+                        <FooterSection 
+                            title="Sewing Essentials" 
+                            links={["Machines", "Needles", "Scissors", "Measuring Tools"]} 
+                        />
+                    </Grid>
+                    <Grid size={{ xs: 12, sm: 6, md: 4, lg: 2.4 }}>
+                        <FooterSection 
+                            title="Accessories" 
+                            links={["Buttons", "Zippers", "Ribbons", "Lace & Trims"]} 
+                        />
+                    </Grid>
+                </Grid>
 
-                <div className="space-y-4">
-                    <h3 className="font-bold text-noon-black text-sm uppercase tracking-wide">Electronics</h3>
-                    <ul className="space-y-2 text-sm text-noon-gray-500">
-                        <li className="hover:text-noon-black cursor-pointer transition-colors">Mobiles</li>
-                        <li className="hover:text-noon-black cursor-pointer transition-colors">Tablets</li>
-                        <li className="hover:text-noon-black cursor-pointer transition-colors">Laptops</li>
-                        <li className="hover:text-noon-black cursor-pointer transition-colors">Home Appliances</li>
-                    </ul>
-                </div>
-
-                <div className="space-y-4">
-                    <h3 className="font-bold text-noon-black text-sm uppercase tracking-wide">Fashion</h3>
-                    <ul className="space-y-2 text-sm text-noon-gray-500">
-                        <li className="hover:text-noon-black cursor-pointer transition-colors">Women's Fashion</li>
-                        <li className="hover:text-noon-black cursor-pointer transition-colors">Men's Fashion</li>
-                        <li className="hover:text-noon-black cursor-pointer transition-colors">Girls' Fashion</li>
-                        <li className="hover:text-noon-black cursor-pointer transition-colors">Boys' Fashion</li>
-                    </ul>
-                </div>
-
-                <div className="space-y-4">
-                    <h3 className="font-bold text-noon-black text-sm uppercase tracking-wide">Home and Kitchen</h3>
-                    <ul className="space-y-2 text-sm text-noon-gray-500">
-                        <li className="hover:text-noon-black cursor-pointer transition-colors">Kitchen & Dining</li>
-                        <li className="hover:text-noon-black cursor-pointer transition-colors">Furniture</li>
-                        <li className="hover:text-noon-black cursor-pointer transition-colors">Home Decor</li>
-                        <li className="hover:text-noon-black cursor-pointer transition-colors">Bedding & Bath</li>
-                    </ul>
-                </div>
-
-                <div className="space-y-4">
-                    <h3 className="font-bold text-noon-black text-sm uppercase tracking-wide">Beauty</h3>
-                    <ul className="space-y-2 text-sm text-noon-gray-500">
-                        <li className="hover:text-noon-black cursor-pointer transition-colors">Fragrance</li>
-                        <li className="hover:text-noon-black cursor-pointer transition-colors">Make-Up</li>
-                        <li className="hover:text-noon-black cursor-pointer transition-colors">Haircare</li>
-                        <li className="hover:text-noon-black cursor-pointer transition-colors">Skincare</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div className="max-w-[1440px] mx-auto px-4 lg:px-8 border-t border-gray-200 pt-8 flex flex-col md:flex-row items-center justify-between gap-6">
-                <div className="flex flex-col md:flex-row items-center gap-6">
-                    <div className="text-center md:text-left">
-                        <h3 className="font-bold text-noon-black text-sm mb-2">Connect with us</h3>
-                        <div className="flex items-center gap-4">
-                            <i className="fab fa-facebook-f text-xl text-noon-gray-500 hover:text-noon-blue cursor-pointer transition-colors"></i>
-                            <i className="fab fa-twitter text-xl text-noon-gray-500 hover:text-noon-blue cursor-pointer transition-colors"></i>
-                            <i className="fab fa-instagram text-xl text-noon-gray-500 hover:text-noon-blue cursor-pointer transition-colors"></i>
-                            <i className="fab fa-linkedin-in text-xl text-noon-gray-500 hover:text-noon-blue cursor-pointer transition-colors"></i>
-                        </div>
-                    </div>
-                </div>
-                
-                <div className="text-sm text-noon-gray-500">
-                    <p>© 2023 Noon E-Commerce. All Rights Reserved.</p>
-                </div>
-            </div>
-        </footer>
+                <Box sx={{ pt: 4, borderTop: '1px solid', borderColor: 'divider', display: 'flex', flexDirection: { xs: 'column', md: 'row' }, alignItems: 'center', justifyContent: 'space-between', gap: 2 }}>
+                    <Box sx={{ textAlign: { xs: 'center', md: 'left' } }}>
+                        <Typography variant="subtitle2" sx={{ fontWeight: 700, mb: 1 }}>Connect with us</Typography>
+                        <Stack direction="row" spacing={1}>
+                            <IconButton color="default" sx={{ bgcolor: 'action.hover', '&:hover': { bgcolor: 'primary.main' } }}><FacebookIcon /></IconButton>
+                            <IconButton color="default" sx={{ bgcolor: 'action.hover', '&:hover': { bgcolor: 'primary.main' } }}><TwitterIcon /></IconButton>
+                            <IconButton color="default" sx={{ bgcolor: 'action.hover', '&:hover': { bgcolor: 'primary.main' } }}><InstagramIcon /></IconButton>
+                            <IconButton color="default" sx={{ bgcolor: 'action.hover', '&:hover': { bgcolor: 'primary.main' } }}><LinkedInIcon /></IconButton>
+                        </Stack>
+                    </Box>
+                    <Typography variant="caption" color="text.secondary">
+                        © {new Date().getFullYear()} Lyver for Textiles. All Rights Reserved.
+                    </Typography>
+                </Box>
+            </Container>
+        </Box>
     );
 }
 

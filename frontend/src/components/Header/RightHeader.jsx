@@ -1,6 +1,14 @@
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../../redux/slices/authSlice';
+import { Box, Button, IconButton, Divider, Typography } from '@mui/material';
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined'; // Using native MUI icon instead of fontawesome if possible, or stick to FA if preferred. Sticking to FA as per user code, but wrapped in MUI.
+// Actually, let's switch to MUI Icons for a more "MUI" feel
+import LogoutIcon from '@mui/icons-material/Logout';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 
 const RightHeader = () => {
     const { user } = useSelector((state) => state.authState);
@@ -10,49 +18,92 @@ const RightHeader = () => {
         dispatch(logout());
     };
 
+    const actionButtonStyle = {
+        textTransform: 'none',
+        color: 'white',
+        fontWeight: 700,
+        fontSize: '0.75rem',
+        padding: '6px 8px',
+        minWidth: 'auto',
+        '&:hover': {
+            backgroundColor: 'rgba(255,255,255,0.1)',
+        }
+    };
+
+    const iconButtonStyle = {
+        padding: '8px',
+        color: 'white',
+        '&:hover': {
+            backgroundColor: 'rgba(255,255,255,0.1)',
+            color: 'white', 
+        },
+        transition: 'transform 0.2s',
+        '&:active': {
+            transform: 'scale(0.95)'
+        }
+    };
+
     return (
-        // FIXED WIDTH: Removed mobile fixed positioning, full width, and shadow.
-        // The desktop classes (lg:static, lg:bg-transparent, lg:justify-end, lg:p-0, lg:shadow-none)
-        // are now applied across all screen sizes by removing the 'lg:' prefix, 
-        // or by keeping the default classes simple.
-        <div className="flex items-center gap-1 lg:gap-2 shrink-0 bg-transparent justify-end p-0 shadow-none z-auto border-none">
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 1, lg: 2 }, justifyContent: 'flex-end' }}>
             
             {/* Language */}
-            <div className="hidden lg:flex items-center gap-1 cursor-pointer hover:bg-black/5 px-2 py-1 rounded-md transition-all duration-200 transform hover:scale-105 active:scale-95">
-                <h3 className="text-xs font-bold font-heading">العربية</h3>
-            </div>
+            <Button 
+                sx={{ 
+                    ...actionButtonStyle, 
+                    display: { xs: 'none', lg: 'flex' } 
+                }}
+            >
+                العربية
+            </Button>
 
-            <span className="text-noon-black opacity-10 h-4 w-px bg-current hidden lg:block"></span>
+            <Divider orientation="vertical" flexItem sx={{ height: 16, my: 'auto', display: { xs: 'none', lg: 'block' }, borderColor: 'rgba(255,255,255,0.3)' }} />
 
             {/* Authentication + Admin */}
             {user ? (
-                <div className="flex items-center gap-2">
-                    <div className="flex items-center gap-1 cursor-pointer hover:bg-black/5 px-2 py-1 rounded-md transition-all duration-200 transform hover:scale-105 active:scale-95" onClick={handleLogout}>
-                        <h3 className="text-xs font-bold hidden lg:block">Sign Out</h3>
-                        <i className="fas fa-sign-out-alt text-lg lg:hidden"></i> 
-                    </div>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <Button 
+                        onClick={handleLogout}
+                        startIcon={<LogoutIcon sx={{ fontSize: 20 }} />}
+                        sx={{ ...actionButtonStyle }}
+                    >
+                        <Box component="span" sx={{ display: { xs: 'none', lg: 'block' } }}>Sign Out</Box>
+                    </Button>
+                    
                     {user.role === 'admin' && (
-                         <Link to="/admin" className="flex items-center gap-1 cursor-pointer hover:bg-black/5 px-2 py-1 rounded-md transition-all duration-200 transform hover:scale-105 active:scale-95">
-                             <h3 className="text-xs font-bold hidden lg:block">Admin</h3>
-                             <i className="fas fa-shield-alt text-lg lg:hidden"></i>
-                         </Link>
+                         <Button 
+                            component={Link} 
+                            to="/admin"
+                            startIcon={<AdminPanelSettingsIcon sx={{ fontSize: 20 }} />}
+                            sx={{ ...actionButtonStyle }}
+                        >
+                            <Box component="span" sx={{ display: { xs: 'none', lg: 'block' } }}>Admin</Box>
+                        </Button>
                     )}
-                </div>
+                </Box>
             ) : (
-                <Link to="/login" className="flex items-center gap-2 cursor-pointer hover:bg-black/5 px-2 py-1 rounded-md transition-all duration-200 transform hover:scale-105 active:scale-95">
-                    <h3 className="text-xs font-bold hidden lg:block">Sign In</h3>
-                    <i className="fas fa-user text-lg text-noon-black"></i> 
-                </Link>
+                <Button 
+                    component={Link} 
+                    to="/login"
+                    startIcon={<PersonOutlineIcon sx={{ fontSize: 24 }} />}
+                    sx={{ ...actionButtonStyle }}
+                >
+                    <Box component="span" sx={{ display: { xs: 'none', lg: 'block' } }}>Sign In</Box>
+                </Button>
             )}
 
-            <span className="text-noon-black opacity-10 h-4 w-px bg-current hidden lg:block"></span>
+            <Divider orientation="vertical" flexItem sx={{ height: 16, my: 'auto', display: { xs: 'none', lg: 'block' }, borderColor: 'rgba(255,255,255,0.3)' }} />
 
             {user && user.role !== 'admin' && (
                 <>
-                     <Link to="/orders" className="flex items-center justify-center w-8 h-8 cursor-pointer hover:bg-black/5 rounded-full transition-all duration-200 transform hover:scale-110 active:scale-95 group" title="My Orders">
-                        <i className="fas fa-box text-lg text-noon-black/90 group-hover:text-noon-blue transition-colors"></i>
-                    </Link>
-                    <span className="text-noon-black opacity-10 h-4 w-px bg-current hidden lg:block"></span>
+                     <IconButton 
+                        component={Link} 
+                        to="/orders" 
+                        sx={iconButtonStyle}
+                        title="My Orders"
+                    >
+                        <LocalMallOutlinedIcon sx={{ fontSize: 24, color: 'white' }} />
+                    </IconButton>
+                    <Divider orientation="vertical" flexItem sx={{ height: 16, my: 'auto', display: { xs: 'none', lg: 'block' }, borderColor: 'rgba(255,255,255,0.3)' }} />
                 </>
             )}
 
@@ -60,22 +111,28 @@ const RightHeader = () => {
             {(!user || user.role !== 'admin') && (
                 <>
                     {/* Cart */}
-                    <Link to="/cart" className="flex items-center justify-center w-8 h-8 cursor-pointer hover:bg-black/5 rounded-full transition-all duration-200 transform hover:scale-110 active:scale-95 relative group">
-                        <div className="relative">
-                            <i className="fas fa-shopping-cart text-lg text-noon-black/90 group-hover:text-noon-blue transition-colors"></i>
-                        </div>
-                    </Link>
+                    <IconButton 
+                        component={Link} 
+                        to="/cart" 
+                        sx={iconButtonStyle}
+                    >
+                        <ShoppingCartOutlinedIcon sx={{ fontSize: 24, color: 'white' }} />
+                    </IconButton>
 
-                    <span className="text-noon-black opacity-10 h-4 w-px bg-current hidden lg:block"></span>
+                    <Divider orientation="vertical" flexItem sx={{ height: 16, my: 'auto', display: { xs: 'none', lg: 'block' }, borderColor: 'rgba(255,255,255,0.3)' }} />
 
                     {/* Wishlist */}
-                    <Link to="/wishlist" className="flex items-center justify-center w-8 h-8 cursor-pointer hover:bg-black/5 rounded-full transition-all duration-200 transform hover:scale-110 active:scale-95 group">
-                        <i className="fas fa-heart text-lg text-noon-black/90 group-hover:text-noon-red transition-colors"></i>
-                    </Link>
+                    <IconButton 
+                        component={Link} 
+                        to="/wishlist" 
+                        sx={iconButtonStyle}
+                    >
+                        <FavoriteBorderIcon sx={{ fontSize: 24, color: 'white' }} />
+                    </IconButton>
                 </>
             )}
 
-        </div>
+        </Box>
     );
 };
 
