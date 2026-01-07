@@ -4,6 +4,14 @@ import io from 'socket.io-client';
 import { addMessage, fetchChatHistory } from '../../redux/slices/chatSlice';
 import { SOCKET_URL } from '../../utils/apiConfig';
 import API_URL from '../../utils/apiConfig';
+import { Box, IconButton, Paper, Typography, TextField, Avatar, Fab, Badge, CircularProgress } from '@mui/material';
+import ChatIcon from '@mui/icons-material/Chat';
+import CloseIcon from '@mui/icons-material/Close';
+import SendIcon from '@mui/icons-material/Send';
+import AttachFileIcon from '@mui/icons-material/AttachFile';
+import MicIcon from '@mui/icons-material/Mic';
+import SupportAgentIcon from '@mui/icons-material/SupportAgent';
+import DoneAllIcon from '@mui/icons-material/DoneAll';
 
 const ChatWidget = () => {
     const dispatch = useDispatch();
@@ -16,7 +24,6 @@ const ChatWidget = () => {
     const messagesEndRef = useRef(null);
     const typingTimeoutRef = useRef(null);
     const [isTyping, setIsTyping] = useState(false);
-    const [loading, setLoading] = useState(false);
 
     // Fetch Real Admin ID on mount
     useEffect(() => {
@@ -88,85 +95,177 @@ const ChatWidget = () => {
     if (!user || user.role === 'admin') return null;
 
     return (
-        <div className="fixed bottom-6 right-6 z-[9999]">
+        <Box sx={{ position: 'fixed', bottom: 24, right: 24, zIndex: 9999 }}>
             {/* Chat Toggle Button */}
-            {!isOpen && (
-                <button 
-                    className="w-16 h-16 rounded-full shadow-2xl flex items-center justify-center transition-all duration-300 bg-gradient-to-r from-noon-yellow to-yellow-500 hover:scale-110 animate-bounce-subtle"
-                    onClick={() => setIsOpen(true)}
-                >
-                    <i className="fas fa-comment-dots text-black text-2xl"></i>
-                </button>
-            )}
+            <Fab 
+                color="primary" 
+                aria-label="chat"
+                onClick={() => setIsOpen(!isOpen)}
+                sx={{ 
+                    width: 64, 
+                    height: 64, 
+                    boxShadow: 6,
+                    transform: isOpen ? 'rotate(90deg)' : 'rotate(0deg)',
+                    transition: 'transform 0.3s'
+                }}
+            >
+                {isOpen ? <CloseIcon sx={{ fontSize: 32 }} /> : <ChatIcon sx={{ fontSize: 32 }} />}
+            </Fab>
 
             {/* Chat Window */}
             {isOpen && (
-                <div className="absolute bottom-0 right-0 w-96 bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col border border-gray-100 animate-fade-in-up h-[600px]">
+                <Paper 
+                    elevation={12}
+                    sx={{ 
+                        position: 'absolute', 
+                        bottom: 80, 
+                        right: 0, 
+                        width: 380, 
+                        height: 600, 
+                        maxHeight: '80vh',
+                        display: 'flex', 
+                        flexDirection: 'column', 
+                        borderRadius: 4, 
+                        overflow: 'hidden',
+                        bgcolor: 'background.paper',
+                    }}
+                >
                     {/* Header */}
-                    <div className="bg-gradient-to-r from-gray-900 to-black p-4 flex items-center justify-between shadow-md">
-                        <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center backdrop-blur-sm relative">
-                                <i className="fas fa-headset text-noon-yellow text-lg"></i>
-                                <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-gray-900 rounded-full"></span>
-                            </div>
-                            <div>
-                                <h3 className="font-bold text-white text-md">Noon Support</h3>
-                                <p className="text-xs text-gray-300">We typically reply in minutes</p>
-                            </div>
-                        </div>
-                        <button onClick={() => setIsOpen(false)} className="text-gray-400 hover:text-white transition-colors">
-                            <i className="fas fa-times text-xl"></i>
-                        </button>
-                    </div>
+                    <Box sx={{ 
+                        bgcolor: 'primary.main', 
+                        p: 2, 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        justifyContent: 'space-between',
+                        color: 'primary.contrastText'
+                    }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                            <Badge
+                                overlap="circular"
+                                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                                variant="dot"
+                                sx={{ 
+                                    '& .MuiBadge-badge': { 
+                                        bgcolor: 'success.main',
+                                        color: 'success.main',
+                                        boxShadow: '0 0 0 2px white',
+                                        width: 10,
+                                        height: 10,
+                                        borderRadius: '50%'
+                                    } 
+                                }}
+                            >
+                                <Avatar sx={{ bgcolor: 'rgba(255,255,255,0.2)', color: 'inherit' }}>
+                                    <SupportAgentIcon />
+                                </Avatar>
+                            </Badge>
+                            <Box>
+                                <Typography variant="subtitle1" fontWeight="bold">Noon Support</Typography>
+                                <Typography variant="caption" sx={{ opacity: 0.8 }}>Relies in minutes</Typography>
+                            </Box>
+                        </Box>
+                        <IconButton onClick={() => setIsOpen(false)} sx={{ color: 'inherit' }}>
+                            <CloseIcon />
+                        </IconButton>
+                    </Box>
 
                     {/* Messages Area */}
-                    <div className="flex-1 p-4 overflow-y-auto bg-[#e5ddd5] space-y-3" style={{ backgroundImage: "url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png')" }}>
+                    <Box sx={{ 
+                        flex: 1, 
+                        p: 2, 
+                        overflowY: 'auto', 
+                        bgcolor: '#ECE5DD', // WhatsApp-like background or theme grey
+                        backgroundImage: "url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png')",
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: 1.5
+                    }}>
                         {/* Welcome Message */}
-                        <div className="flex justify-start">
-                            <div className="bg-white text-gray-800 px-4 py-2 rounded-lg rounded-tl-none shadow-sm max-w-[80%] text-sm relative">
-                                <p>👋 Hello {user.name.split(' ')[0]}! How can we help you today?</p>
-                                <span className="text-[10px] text-gray-400 block text-right mt-1">{new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-                            </div>
-                        </div>
+                        <Box sx={{ display: 'flex', justifyContent: 'flex-start' }}>
+                            <Paper sx={{ 
+                                p: 1.5, 
+                                px: 2, 
+                                borderRadius: 2, 
+                                borderTopLeftRadius: 0,
+                                maxWidth: '85%',
+                                bgcolor: 'white'
+                            }}>
+                                <Typography variant="body2" color="text.primary">
+                                    👋 Hello {user.name.split(' ')[0]}! How can we help you today?
+                                </Typography>
+                                <Typography variant="caption" color="text.secondary" display="block" textAlign="right" sx={{ mt: 0.5 }}>
+                                    {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                </Typography>
+                            </Paper>
+                        </Box>
 
                         {messages.map((msg, index) => {
                             const isMe = msg.sender === user._id;
                             return (
-                                <div key={index} className={`flex ${isMe ? 'justify-end' : 'justify-start'}`}>
-                                    <div className={`px-4 py-2 rounded-lg shadow-sm max-w-[80%] text-sm relative ${
-                                        isMe 
-                                            ? 'bg-[#d9fdd3] text-gray-800 rounded-tr-none' 
-                                            : 'bg-white text-gray-800 rounded-tl-none'
-                                    }`}>
-                                        <p>{msg.message}</p>
-                                        <span className={`text-[10px] block text-right mt-1 ${isMe ? 'text-green-800/60' : 'text-gray-400'}`}>
-                                            {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                            {isMe && <i className="fas fa-check-double ml-1 text-blue-500"></i>}
-                                        </span>
-                                    </div>
-                                </div>
+                                <Box key={index} sx={{ display: 'flex', justifyContent: isMe ? 'flex-end' : 'flex-start' }}>
+                                    <Paper sx={{ 
+                                        p: 1.5, 
+                                        px: 2, 
+                                        borderRadius: 2, 
+                                        borderTopRightRadius: isMe ? 0 : 8,
+                                        borderTopLeftRadius: isMe ? 8 : 0,
+                                        maxWidth: '85%',
+                                        bgcolor: isMe ? '#d9fdd3' : 'white', // WhatsApp green for sent
+                                        color: 'text.primary'
+                                    }}>
+                                        <Typography variant="body2">{msg.message}</Typography>
+                                        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 0.5, mt: 0.5 }}>
+                                            <Typography variant="caption" sx={{ color: isMe ? 'rgba(0,0,0,0.45)' : 'text.secondary', fontSize: '0.65rem' }}>
+                                                {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                            </Typography>
+                                            {isMe && <DoneAllIcon sx={{ fontSize: 14, color: 'info.main' }} />}
+                                        </Box>
+                                    </Paper>
+                                </Box>
                             );
                         })}
-                        {/* Typing Bubble */}
+                        
                         {isTyping && (
-                            <div className="flex justify-start">
-                                <div className="bg-white px-4 py-3 rounded-lg rounded-tl-none shadow-sm flex items-center gap-1">
-                                    <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:-0.3s]"></span>
-                                    <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:-0.15s]"></span>
-                                    <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></span>
-                                </div>
-                            </div>
+                             <Box sx={{ display: 'flex', justifyContent: 'flex-start' }}>
+                                <Paper sx={{ p: 1.5, borderRadius: 2, borderTopLeftRadius: 0, bgcolor: 'white' }}>
+                                    <Box sx={{ display: 'flex', gap: 0.5 }}>
+                                        <Box sx={{ width: 6, height: 6, bgcolor: 'text.secondary', borderRadius: '50%', animation: 'bounce 1s infinite', animationDelay: '0s' }} />
+                                        <Box sx={{ width: 6, height: 6, bgcolor: 'text.secondary', borderRadius: '50%', animation: 'bounce 1s infinite', animationDelay: '0.2s' }} />
+                                        <Box sx={{ width: 6, height: 6, bgcolor: 'text.secondary', borderRadius: '50%', animation: 'bounce 1s infinite', animationDelay: '0.4s' }} />
+                                        <style>{`
+                                            @keyframes bounce {
+                                                0%, 100% { transform: translateY(0); }
+                                                50% { transform: translateY(-4px); }
+                                            }
+                                        `}</style>
+                                    </Box>
+                                </Paper>
+                            </Box>
                         )}
                         <div ref={messagesEndRef} />
-                    </div>
+                    </Box>
 
                     {/* Input Area */}
-                    <form className="p-3 bg-gray-100 flex gap-2 items-center" onSubmit={handleSendMessage}>
-                        <button type="button" className="text-gray-500 hover:text-gray-700 p-2">
-                             <i className="fas fa-paperclip"></i>
-                        </button>
-                        <input
-                            type="text"
+                    <Box 
+                        component="form" 
+                        onSubmit={handleSendMessage}
+                        sx={{ 
+                            p: 2, 
+                            bgcolor: 'background.default', 
+                            borderTop: 1, 
+                            borderColor: 'divider',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 1
+                        }}
+                    >
+                        <IconButton size="small" sx={{ color: 'text.secondary' }}>
+                            <AttachFileIcon />
+                        </IconButton>
+                        <TextField
+                            fullWidth
+                            size="small"
+                            placeholder="Type a message..."
                             value={messageInput}
                             onChange={(e) => {
                                 setMessageInput(e.target.value);
@@ -183,25 +282,26 @@ const ChatWidget = () => {
                                     typingTimeoutRef.current = null;
                                 }, 2000);
                             }}
-                            placeholder="Type a message..."
-                            className="flex-1 bg-white border-none rounded-full px-4 py-2.5 text-sm focus:ring-0 shadow-sm"
+                            sx={{ 
+                                '& .MuiOutlinedInput-root': { 
+                                    bgcolor: 'white', 
+                                    borderRadius: 4 
+                                } 
+                            }}
                         />
-                        {messageInput.trim() ? (
-                            <button 
-                                type="submit" 
-                                className="w-10 h-10 bg-noon-yellow text-black rounded-full flex items-center justify-center hover:bg-yellow-400 transition-all shadow-md transform hover:scale-105"
-                            >
-                                <i className="fas fa-paper-plane text-sm"></i>
-                            </button>
-                        ) : (
-                             <button type="button" className="text-gray-500 hover:text-gray-700 p-2">
-                                <i className="fas fa-microphone"></i>
-                            </button>
-                        )}
-                    </form>
-                </div>
+                         {messageInput.trim() ? (
+                             <IconButton type="submit" color="primary" sx={{ bgcolor: 'primary.main', color: 'primary.contrastText', '&:hover': { bgcolor: 'primary.dark' } }}>
+                                <SendIcon />
+                             </IconButton>
+                         ) : (
+                             <IconButton sx={{ color: 'text.secondary' }}>
+                                <MicIcon />
+                             </IconButton>
+                         )}
+                    </Box>
+                </Paper>
             )}
-        </div>
+        </Box>
     );
 };
 

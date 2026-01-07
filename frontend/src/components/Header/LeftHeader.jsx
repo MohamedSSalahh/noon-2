@@ -25,11 +25,16 @@ const LeftHeader = () => {
         <>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 3, flexShrink: 0 }}>
                 <Link to="/" style={{ display: 'flex' }}>
-                    <img 
-                        src="/data/assets/svg/noon-logo-en.svg" 
-                        alt="noon" 
-                        style={{ width: '96px', height: 'auto', display: 'block' }} 
-                    />
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                         <img 
+                            src="/data/assets/svg/lyver-logo.svg" 
+                            alt="Lyver" 
+                            style={{ width: '40px', height: 'auto', display: 'block', color: 'white' }} 
+                        />
+                        <Typography variant="h5" sx={{ fontWeight: 800, color: 'white', letterSpacing: '-0.5px' }}>
+                            Lyver <Typography component="span" variant="caption" sx={{ display: 'block', fontSize: '10px', lineHeight: 0.8, letterSpacing: '2px', textTransform: 'uppercase', opacity: 0.8 }}>Textiles</Typography>
+                        </Typography>
+                    </Box>
                 </Link>
                 <Box 
                     onClick={showMap}

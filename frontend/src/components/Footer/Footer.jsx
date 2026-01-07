@@ -39,34 +39,34 @@ const Footer = () => {
         <Box component="footer" sx={{ bgcolor: 'background.paper', pt: 6, pb: 3, mt: 'auto', borderTop: '1px solid', borderColor: 'divider' }}>
             <Container maxWidth="xl">
                 <Grid container spacing={4} sx={{ mb: 6 }}>
-                    <Grid item xs={12} sm={6} md={4} lg={2.4}>
+                    <Grid size={{ xs: 12, sm: 6, md: 4, lg: 2.4 }}>
                         <FooterSection 
                             title="We're Always Here To Help" 
                             links={["Help Center", "Contact Us"]} 
                         />
                     </Grid>
-                    <Grid item xs={12} sm={6} md={4} lg={2.4}>
+                    <Grid size={{ xs: 12, sm: 6, md: 4, lg: 2.4 }}>
                         <FooterSection 
-                            title="Electronics" 
-                            links={["Mobiles", "Tablets", "Laptops", "Home Appliances"]} 
+                            title="Fabrics" 
+                            links={["Cotton", "Silk", "Wool", "Linen", "Velvet"]} 
                         />
                     </Grid>
-                    <Grid item xs={12} sm={6} md={4} lg={2.4}>
+                    <Grid size={{ xs: 12, sm: 6, md: 4, lg: 2.4 }}>
                         <FooterSection 
-                            title="Fashion" 
-                            links={["Women's Fashion", "Men's Fashion", "Girls' Fashion", "Boys' Fashion"]} 
+                            title="Yarns & Threads" 
+                            links={["Embroidery", "Knitting", "Crochet", "Sewing Threads"]} 
                         />
                     </Grid>
-                    <Grid item xs={12} sm={6} md={4} lg={2.4}>
+                    <Grid size={{ xs: 12, sm: 6, md: 4, lg: 2.4 }}>
                         <FooterSection 
-                            title="Home and Kitchen" 
-                            links={["Kitchen & Dining", "Furniture", "Home Decor", "Bedding & Bath"]} 
+                            title="Sewing Essentials" 
+                            links={["Machines", "Needles", "Scissors", "Measuring Tools"]} 
                         />
                     </Grid>
-                    <Grid item xs={12} sm={6} md={4} lg={2.4}>
+                    <Grid size={{ xs: 12, sm: 6, md: 4, lg: 2.4 }}>
                         <FooterSection 
-                            title="Beauty" 
-                            links={["Fragrance", "Make-Up", "Haircare", "Skincare"]} 
+                            title="Accessories" 
+                            links={["Buttons", "Zippers", "Ribbons", "Lace & Trims"]} 
                         />
                     </Grid>
                 </Grid>
@@ -82,7 +82,7 @@ const Footer = () => {
                         </Stack>
                     </Box>
                     <Typography variant="caption" color="text.secondary">
-                        © 2023 Noon E-Commerce. All Rights Reserved.
+                        © {new Date().getFullYear()} Lyver for Textiles. All Rights Reserved.
                     </Typography>
                 </Box>
             </Container>

@@ -9,7 +9,7 @@ const QuickReach = ({ quickReach }) => {
     <Box sx={{ py: 3, my: 3, bgcolor: 'background.paper' }}>
         <Grid container spacing={2} sx={{ maxWidth: 1440, mx: 'auto', px: { xs: 2, lg: 4 } }}>
             {quickReach.imgs.map(imgURL => (
-                <Grid item xs={4} md={2} key={imgURL}>
+                <Grid size={{ xs: 4, md: 2 }} key={imgURL}>
                     <Card sx={{ borderRadius: 3, boxShadow: 'none', border: '1px solid', borderColor: 'transparent', '&:hover': { borderColor: 'divider', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' } }}>
                         <CardActionArea sx={{ p: 1 }}>
                              <Box sx={{ position: 'relative', pt: '100%' }}>
