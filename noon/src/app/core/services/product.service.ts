@@ -24,13 +24,18 @@ loading = signal<boolean>(false)
         // Handle wrapped responses (e.g. { data: [...] } or { products: [...] })
         let data = Array.isArray(res) ? res : (res.data || res.products || []);
         
-        // Fix Image URLs
-        data = data.map((product: Product) => ({
-          ...product,
-          imageCover: product.imageCover && !product.imageCover.startsWith('http') 
-            ? `${this.apiUrl}/products/${product.imageCover}` 
-            : product.imageCover
-        }));
+          // Fix Image URLs
+          const apiUrl = this.apiUrl || 'http://localhost:8000';
+          data = data.map((product: Product) => {
+             let image = product.imageCover ? product.imageCover.trim() : '';
+             if (image && !image.startsWith('http')) {
+                image = `${apiUrl}/products/${image}`;
+             }
+             return {
+               ...product,
+               imageCover: image
+             };
+          });
 
         this.products.set(data);
       },

@@ -1,61 +1,181 @@
-<div class="relative bg-white overflow-hidden">
-  <div class="max-w-7xl mx-auto">
-    <div class="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
-      <main class="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
-        <div class="sm:text-center lg:text-left">
-          <h1 class="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
-            <span class="block xl:inline">The Power Behind</span>
-            <span class="block text-purple-600 xl:inline">Noon Marketplace</span>
+<div class="relative overflow-hidden bg-gray-50 dark:bg-gray-900 min-h-screen">
+  
+  <!-- Background Blobs -->
+ 
+  <!-- Hero Section -->
+  <div class="relative pt-10 pb-12 lg:pt-16 lg:pb-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="lg:grid lg:grid-cols-2 lg:gap-8 items-center">
+        <!-- Text Content -->
+        <div class="mb-8 lg:mb-0 animate-slide-in-left">
+          <div class="inline-flex items-center px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-sm font-medium mb-4">
+            <span class="flex h-2 w-2 rounded-full bg-blue-600 mr-2"></span>
+            System v2.0 Live
+          </div>
+          <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900 dark:text-white mb-4 leading-tight">
+            Noon <br>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600">Admin Workspace</span>
           </h1>
-          <p class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-            Streamline operations, manage inventory, and track sales performance with the ultimate administrative toolkit designed for efficiency and growth.
+          <p class="mt-2 text-lg text-gray-500 dark:text-gray-400 mb-6 max-w-lg">
+            Complete control over your e-commerce ecosystem. Manage products, track orders, and analyze user data in real-time.
           </p>
-          <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
-            <div class="rounded-md shadow">
-              <a href="/admin/dashboard" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 md:py-4 md:text-lg md:px-10">
-                Go to Dashboard
-              </a>
+          <div class="flex flex-col sm:flex-row gap-4">
+            <a href="/admin/dashboard" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300">
+              Access Dashboard
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+              </svg>
+            </a>
+            <a href="https://github.com/MohamedSSalahh/noon" target="_blank" class="inline-flex items-center justify-center px-6 py-3 border-2 border-gray-200 dark:border-gray-700 text-base font-medium rounded-xl text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-300">
+              Documentation
+            </a>
+          </div>
+          
+          <!-- Quick Stats -->
+          <div class="mt-8 grid grid-cols-3 gap-6 pt-6 border-t border-gray-100 dark:border-gray-800">
+            <div>
+              <p class="text-2xl font-bold text-gray-900 dark:text-white">99.9%</p>
+              <p class="text-xs text-gray-500">Uptime</p>
             </div>
-            <div class="mt-3 sm:mt-0 sm:ml-3">
-              <a href="/auth/login" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-purple-700 bg-purple-100 hover:bg-purple-200 md:py-4 md:text-lg md:px-10">
-                Login
-              </a>
+            <div>
+              <p class="text-2xl font-bold text-gray-900 dark:text-white">Active</p>
+              <p class="text-xs text-gray-500">Status</p>
+            </div>
+            <div>
+              <p class="text-2xl font-bold text-gray-900 dark:text-white">Secure</p>
+              <p class="text-xs text-gray-500">Connection</p>
             </div>
           </div>
         </div>
-      </main>
-    </div>
-  </div>
-  <div class="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
-    <img class="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full" src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2850&q=80" alt="">
-  </div>
-</div>
 
-<div class="bg-gray-100 py-12">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-3xl font-extrabold text-gray-900 mb-8">Featured Categories</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Category 1 -->
-            <div class="relative rounded-lg overflow-hidden group shadow-lg">
-                <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Electronics" class="w-full h-64 object-cover transform group-hover:scale-110 transition duration-500">
-                <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-                    <span class="text-white text-2xl font-bold">Electronics</span>
-                </div>
+        <!-- Hero Image Composition -->
+        <div class="relative animate-slide-in-right hidden lg:block">
+          <div class="absolute inset-0 bg-gradient-to-r from-purple-400 to-blue-400 rounded-[2.5rem] rotate-6 opacity-30 blur-2xl transform scale-90"></div>
+          <div class="relative rounded-[2.5rem] overflow-hidden shadow-2xl border-4 border-white dark:border-gray-800 bg-gray-900 h-80">
+            <!-- Simulated Dashboard UI -->
+            <div class="p-6 h-full flex flex-col justify-center items-center text-center opacity-80">
+                <svg class="w-24 h-24 text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                <div class="w-full h-2 bg-gray-700 rounded-full mb-4 max-w-[200px]"></div>
+                <div class="w-full h-2 bg-gray-700 rounded-full mb-2 max-w-[150px]"></div>
+                <div class="w-full h-2 bg-gray-700 rounded-full max-w-[100px]"></div>
             </div>
-             <!-- Category 2 -->
-             <div class="relative rounded-lg overflow-hidden group shadow-lg">
-                <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Fashion" class="w-full h-64 object-cover transform group-hover:scale-110 transition duration-500">
-                <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-                    <span class="text-white text-2xl font-bold">Fashion</span>
+             <!-- Floating Badge -->
+             <div class="absolute bottom-6 left-6 bg-white/90 backdrop-blur-md rounded-xl p-3 shadow-lg animate-bounce duration-[3000ms]">
+                <div class="flex items-center gap-3">
+                  <div class="bg-green-100 p-2 rounded-full text-green-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p class="text-xs text-gray-500 font-medium">System Status</p>
+                    <p class="text-xs font-bold text-gray-900">All Systems Operational</p>
+                  </div>
                 </div>
-            </div>
-             <!-- Category 3 -->
-             <div class="relative rounded-lg overflow-hidden group shadow-lg">
-                <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Furniture" class="w-full h-64 object-cover transform group-hover:scale-110 transition duration-500">
-                <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-                    <span class="text-white text-2xl font-bold">Furniture</span>
-                </div>
-            </div>
+             </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
+
+  <!-- Admin Modules Section -->
+  <div class="relative py-12 bg-white dark:bg-gray-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-10 animate-slide-up">
+        <h2 class="text-sm text-purple-600 font-semibold tracking-wide uppercase">Core Modules</h2>
+        <p class="mt-1 text-2xl leading-8 font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-3xl">
+          Administrative Tools
+        </p>
+        <p class="mt-2 max-w-2xl text-lg text-gray-500 lg:mx-auto">
+          Access all control modules from a single centralized hub.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Module 1: Products -->
+        <a href="/admin/products" class="group relative rounded-3xl overflow-hidden shadow-lg h-64 cursor-pointer animate-slide-up animation-delay-100 bg-gradient-to-br from-purple-500 to-indigo-600 p-1">
+          <div class="absolute inset-0 bg-white dark:bg-gray-900 rounded-[1.4rem] m-[2px] flex flex-col items-center justify-center text-center p-6 group-hover:bg-opacity-95 transition-all">
+             <div class="mb-4 p-3 bg-purple-100 rounded-full text-purple-600 group-hover:scale-110 transition-transform duration-300">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+             </div>
+             <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-1">Products</h3>
+             <p class="text-sm text-gray-500">Manage inventory, prices, and stock levels.</p>
+          </div>
+        </a>
+
+        <!-- Module 2: Orders -->
+        <a href="/admin/orders" class="group relative rounded-3xl overflow-hidden shadow-lg h-64 cursor-pointer animate-slide-up animation-delay-200 bg-gradient-to-br from-blue-500 to-cyan-600 p-1">
+          <div class="absolute inset-0 bg-white dark:bg-gray-900 rounded-[1.4rem] m-[2px] flex flex-col items-center justify-center text-center p-6 group-hover:bg-opacity-95 transition-all">
+             <div class="mb-4 p-3 bg-blue-100 rounded-full text-blue-600 group-hover:scale-110 transition-transform duration-300">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+             </div>
+             <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-1">Orders</h3>
+             <p class="text-sm text-gray-500">Track shipments, process returns, and handle invoices.</p>
+          </div>
+        </a>
+
+        <!-- Module 3: Users -->
+        <a href="/admin/users" class="group relative rounded-3xl overflow-hidden shadow-lg h-64 cursor-pointer animate-slide-up animation-delay-300 bg-gradient-to-br from-pink-500 to-rose-600 p-1">
+          <div class="absolute inset-0 bg-white dark:bg-gray-900 rounded-[1.4rem] m-[2px] flex flex-col items-center justify-center text-center p-6 group-hover:bg-opacity-95 transition-all">
+             <div class="mb-4 p-3 bg-pink-100 rounded-full text-pink-600 group-hover:scale-110 transition-transform duration-300">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+             </div>
+             <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-1">Users</h3>
+             <p class="text-sm text-gray-500">Manage customer accounts and access roles.</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- System Capabilities Section -->
+  <div class="py-12 bg-gray-50 dark:bg-gray-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-10">
+        <h2 class="text-2xl font-extrabold text-gray-900 dark:text-white sm:text-3xl">
+           System Capabilities
+        </h2>
+        <p class="mt-2 text-base text-gray-500">
+          Built for enterprise-grade performance and security.
+        </p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Capability 1 -->
+        <div class="bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-sm hover:shadow-xl transition-shadow duration-300 text-center group">
+          <div class="inline-flex items-center justify-center h-12 w-12 rounded-full bg-purple-100 text-purple-600 mb-4 group-hover:scale-110 transition-transform duration-300">
+            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+          </div>
+          <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-1">Real-time Analytics</h3>
+          <p class="text-sm text-gray-500">
+             Monitor sales, traffic, and conversion rates as they happen.
+          </p>
+        </div>
+        <!-- Capability 2 -->
+        <div class="bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-sm hover:shadow-xl transition-shadow duration-300 text-center group">
+           <div class="inline-flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 text-blue-600 mb-4 group-hover:scale-110 transition-transform duration-300">
+            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+          </div>
+          <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-1">RBAC Security</h3>
+          <p class="text-sm text-gray-500">
+             Role-Based Access Control ensures data integrity and security.
+          </p>
+        </div>
+        <!-- Capability 3 -->
+        <div class="bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-sm hover:shadow-xl transition-shadow duration-300 text-center group">
+           <div class="inline-flex items-center justify-center h-12 w-12 rounded-full bg-green-100 text-green-600 mb-4 group-hover:scale-110 transition-transform duration-300">
+            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+          </div>
+          <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-1">High Performance</h3>
+          <p class="text-sm text-gray-500">
+             Optimized for speed and handling large product catalogs.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
