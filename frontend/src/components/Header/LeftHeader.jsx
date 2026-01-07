@@ -54,16 +54,16 @@ const LeftHeader = () => {
                     </Box>
                     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                            <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 500, lineHeight: 1 }}>
+                            <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.8)', fontWeight: 500, lineHeight: 1 }}>
                                 Deliver to
                             </Typography>
-                            <KeyboardArrowDownIcon sx={{ fontSize: '14px', color: 'text.secondary' }} />
+                            <KeyboardArrowDownIcon sx={{ fontSize: '14px', color: 'rgba(255,255,255,0.8)' }} />
                         </Box>
                         <Typography 
                             variant="body2" 
                             sx={{ 
                                 fontWeight: 700, 
-                                color: 'text.primary',
+                                color: 'white',
                                 maxWidth: '140px',
                                 whiteSpace: 'nowrap',
                                 overflow: 'hidden',

@@ -20,21 +20,22 @@ const RightHeader = () => {
 
     const actionButtonStyle = {
         textTransform: 'none',
-        color: 'text.primary',
+        color: 'white',
         fontWeight: 700,
         fontSize: '0.75rem',
         padding: '6px 8px',
         minWidth: 'auto',
         '&:hover': {
-            backgroundColor: 'rgba(0,0,0,0.05)',
+            backgroundColor: 'rgba(255,255,255,0.1)',
         }
     };
 
     const iconButtonStyle = {
         padding: '8px',
+        color: 'white',
         '&:hover': {
-            backgroundColor: 'rgba(0,0,0,0.05)',
-            color: 'primary.main', // Noon blue previously, now primary yellow or stick to black
+            backgroundColor: 'rgba(255,255,255,0.1)',
+            color: 'white', 
         },
         transition: 'transform 0.2s',
         '&:active': {
@@ -55,7 +56,7 @@ const RightHeader = () => {
                 العربية
             </Button>
 
-            <Divider orientation="vertical" flexItem sx={{ height: 16, my: 'auto', display: { xs: 'none', lg: 'block' }, borderColor: 'rgba(0,0,0,0.1)' }} />
+            <Divider orientation="vertical" flexItem sx={{ height: 16, my: 'auto', display: { xs: 'none', lg: 'block' }, borderColor: 'rgba(255,255,255,0.3)' }} />
 
             {/* Authentication + Admin */}
             {user ? (
@@ -90,7 +91,7 @@ const RightHeader = () => {
                 </Button>
             )}
 
-            <Divider orientation="vertical" flexItem sx={{ height: 16, my: 'auto', display: { xs: 'none', lg: 'block' }, borderColor: 'rgba(0,0,0,0.1)' }} />
+            <Divider orientation="vertical" flexItem sx={{ height: 16, my: 'auto', display: { xs: 'none', lg: 'block' }, borderColor: 'rgba(255,255,255,0.3)' }} />
 
             {user && user.role !== 'admin' && (
                 <>
@@ -100,9 +101,9 @@ const RightHeader = () => {
                         sx={iconButtonStyle}
                         title="My Orders"
                     >
-                        <LocalMallOutlinedIcon sx={{ fontSize: 24, color: 'text.primary' }} />
+                        <LocalMallOutlinedIcon sx={{ fontSize: 24, color: 'white' }} />
                     </IconButton>
-                    <Divider orientation="vertical" flexItem sx={{ height: 16, my: 'auto', display: { xs: 'none', lg: 'block' }, borderColor: 'rgba(0,0,0,0.1)' }} />
+                    <Divider orientation="vertical" flexItem sx={{ height: 16, my: 'auto', display: { xs: 'none', lg: 'block' }, borderColor: 'rgba(255,255,255,0.3)' }} />
                 </>
             )}
 
@@ -115,10 +116,10 @@ const RightHeader = () => {
                         to="/cart" 
                         sx={iconButtonStyle}
                     >
-                        <ShoppingCartOutlinedIcon sx={{ fontSize: 24, color: 'text.primary' }} />
+                        <ShoppingCartOutlinedIcon sx={{ fontSize: 24, color: 'white' }} />
                     </IconButton>
 
-                    <Divider orientation="vertical" flexItem sx={{ height: 16, my: 'auto', display: { xs: 'none', lg: 'block' }, borderColor: 'rgba(0,0,0,0.1)' }} />
+                    <Divider orientation="vertical" flexItem sx={{ height: 16, my: 'auto', display: { xs: 'none', lg: 'block' }, borderColor: 'rgba(255,255,255,0.3)' }} />
 
                     {/* Wishlist */}
                     <IconButton 
@@ -126,7 +127,7 @@ const RightHeader = () => {
                         to="/wishlist" 
                         sx={iconButtonStyle}
                     >
-                        <FavoriteBorderIcon sx={{ fontSize: 24, color: 'text.primary' }} />
+                        <FavoriteBorderIcon sx={{ fontSize: 24, color: 'white' }} />
                     </IconButton>
                 </>
             )}

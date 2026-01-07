@@ -78,7 +78,7 @@ const ProductCard = ({ product, isLiked, onWishlistToggle, onClick }) => {
                 <Stack direction="row" alignItems="center" spacing={0.5} sx={{ mb: 1, minHeight: 18 }}>
                     {product.ratingCount > 0 ? (
                         <>
-                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, bgcolor: '#388e3c', color: 'white', px: 0.8, py: 0.1, borderRadius: 10 }}>
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, bgcolor: 'success.main', color: 'white', px: 0.8, py: 0.1, borderRadius: 10 }}>
                                 <Typography variant="caption" sx={{ fontWeight: 'bold', lineHeight: 1 }}>{product.rating}</Typography>
                                 <Typography variant="caption" sx={{ fontSize: '0.6rem', lineHeight: 1 }}>★</Typography>
                             </Box>
