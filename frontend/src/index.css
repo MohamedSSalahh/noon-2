@@ -150,12 +150,12 @@ body {
     margin: 0;
     padding: 0;
     font-size: 100%;
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 0; /* Adjusted to 0 to let components handle padding */
-    padding-right: 0; 
-    max-width: min(100vw, 1800px);
+    /* width: 100%; removed */
+    /* margin-left: auto; removed */
+    /* margin-right: auto; removed */
+    /* padding-left: 0; removed */
+    /* padding-right: 0; removed */
+    /* max-width: min(100vw, 1800px); removed */
     background-color: var(--color-bg-tertiary); /* Using the noon-gray variable equivalent */
 }
 

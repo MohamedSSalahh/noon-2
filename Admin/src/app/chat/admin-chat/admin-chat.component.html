@@ -1,0 +1,67 @@
+<div class="flex h-screen bg-gray-100">
+  <!-- Sidebar: Conversation List -->
+  <div class="w-1/3 bg-white border-r">
+    <div class="p-4 border-b">
+      <h2 class="text-xl font-bold">Conversations</h2>
+    </div>
+    <ul class="overflow-y-auto h-full">
+      <li *ngFor="let conv of conversations" 
+          (click)="selectConversation(conv)"
+          class="p-4 border-b hover:bg-gray-50 cursor-pointer"
+          [class.bg-blue-50]="selectedConversation?._id === conv._id">
+        <div class="flex items-center">
+          <div class="ml-3">
+            <p class="font-medium">User</p> <!-- Replace with dynamic user name -->
+            <p class="text-sm text-gray-500 truncate">Last message...</p>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Chat Area -->
+  <div class="w-2/3 flex flex-col" *ngIf="selectedConversation; else noSelection">
+    <div class="p-4 border-b bg-white shadow-sm">
+      <h3 class="font-bold">Chatting with User</h3>
+    </div>
+
+    <!-- Messages -->
+    <div class="flex-1 overflow-y-auto p-4 space-y-4">
+      <div *ngFor="let msg of messages" 
+           [class.text-right]="(msg.sender?._id || msg.senderId) === adminId"
+           [class.text-left]="(msg.sender?._id || msg.senderId) !== adminId">
+        <div class="inline-block px-4 py-2 rounded-lg"
+             [class.bg-blue-500]="(msg.sender?._id || msg.senderId) === adminId"
+             [class.text-white]="(msg.sender?._id || msg.senderId) === adminId"
+             [class.bg-gray-200]="(msg.sender?._id || msg.senderId) !== adminId"
+             [class.text-gray-800]="(msg.sender?._id || msg.senderId) !== adminId">
+          {{ msg.text }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Input -->
+    <div class="p-4 border-t bg-white">
+      <div class="flex space-x-2">
+        <input 
+          [(ngModel)]="newMessage" 
+          (keyup.enter)="sendMessage()"
+          type="text" 
+          class="flex-1 border rounded px-4 py-2 focus:outline-none focus:border-blue-500"
+          placeholder="Type a message..."
+        />
+        <button 
+          (click)="sendMessage()"
+          class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
+          Send
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noSelection>
+    <div class="w-2/3 flex items-center justify-center text-gray-400">
+      <p>Select a conversation to start chatting</p>
+    </div>
+  </ng-template>
+</div>

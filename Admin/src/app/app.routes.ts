@@ -92,6 +92,10 @@ export const routes: Routes = [
       {
          path: 'users',
          loadComponent: () => import('./features/admin/admin-users/admin-users').then(m => m.AdminUsers)
+      },
+      {
+         path: 'chat',
+         loadComponent: () => import('./chat/admin-chat/admin-chat.component').then(m => m.AdminChatComponent)
       }
 
     ]

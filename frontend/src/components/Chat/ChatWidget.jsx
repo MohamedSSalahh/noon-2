@@ -48,11 +48,12 @@ const ChatWidget = () => {
     useEffect(() => {
         if (user && token && adminId) {
             socketRef.current = io(SOCKET_URL);
-            socketRef.current.emit('join', user._id);
+            socketRef.current.emit('join_chat', user._id);
 
-            socketRef.current.on('receiveMessage', (message) => {
-                dispatch(addMessage(message));
-                setIsTyping(false); // Stop typing if message received
+            socketRef.current.on('receive_message', (message) => {
+                // Adapt message format if needed
+                dispatch(addMessage({ ...message, message: message.text })); 
+                setIsTyping(false); 
             });
 
             socketRef.current.on('typing', (senderId) => {
@@ -63,7 +64,6 @@ const ChatWidget = () => {
                  if (senderId === adminId) setIsTyping(false);
             });
             
-            // Pass adminId to fetch history between USER and ADMIN
             dispatch(fetchChatHistory(adminId));
 
             return () => {
@@ -81,14 +81,15 @@ const ChatWidget = () => {
         if (!messageInput.trim() || !socketRef.current || !adminId) return;
 
         const messageData = {
-            sender: user._id,
-            receiver: adminId, 
-            message: messageInput,
+            senderId: user._id,
+            receiverId: adminId, 
+            text: messageInput,
+            conversationId: user._id + "_" + adminId // Placeholder conversation ID logic
         };
 
-        socketRef.current.emit('sendMessage', messageData);
+        socketRef.current.emit('send_message', messageData);
         // Optimistically add
-        dispatch(addMessage({ ...messageData, _id: Date.now().toString(), createdAt: new Date().toISOString() })); 
+        dispatch(addMessage({ ...messageData, _id: Date.now().toString(), createdAt: new Date().toISOString(), message: messageInput, sender: user._id })); 
         setMessageInput('');
     };
 

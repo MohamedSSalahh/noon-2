@@ -1,0 +1,51 @@
+<div class="p-6 bg-white rounded shadow-md">
+  <h2 class="text-2xl font-bold mb-4">Manage Textiles Page</h2>
+
+  <div *ngIf="successMessage" class="bg-green-100 text-green-700 p-3 rounded mb-4">
+    {{ successMessage }}
+  </div>
+  <div *ngIf="errorMessage" class="bg-red-100 text-red-700 p-3 rounded mb-4">
+    {{ errorMessage }}
+  </div>
+
+  <form [formGroup]="cmsForm" (ngSubmit)="onSubmit()">
+    <div class="mb-4">
+      <label class="block text-gray-700 text-sm font-bold mb-2" for="title">
+        Page Title
+      </label>
+      <input
+        type="text"
+        id="title"
+        formControlName="title"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        placeholder="e.g. Our Latest Textiles"
+      />
+    </div>
+
+    <div class="mb-6">
+      <label class="block text-gray-700 text-sm font-bold mb-2" for="content">
+        Content (HTML Allowed)
+      </label>
+      <textarea
+        id="content"
+        formControlName="content"
+        rows="10"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        placeholder="<p>Welcome to our textiles collection...</p>"
+      ></textarea>
+      <p class="text-xs text-gray-500 mt-1">
+        You can put whatever you want here.
+      </p>
+    </div>
+
+    <div class="flex items-center justify-between">
+      <button
+        type="submit"
+        [disabled]="loading"
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:opacity-50"
+      >
+        {{ loading ? 'Saving...' : 'Save Content' }}
+      </button>
+    </div>
+  </form>
+</div>

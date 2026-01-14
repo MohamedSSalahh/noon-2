@@ -18,6 +18,14 @@ export class AdminProducts implements OnInit {
     this.productService.getAllProducts();
   }
 
+  search(keyword: string) {
+      if (!keyword.trim()) {
+          this.productService.getAllProducts();
+      } else {
+          this.productService.getAllProducts({ keyword: keyword.trim() });
+      }
+  }
+
   deleteProduct(id: string) {
     if(confirm('Are you sure you want to delete this product?')) {
       this.productService.deleteProduct(id).subscribe({

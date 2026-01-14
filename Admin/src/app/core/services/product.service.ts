@@ -17,9 +17,9 @@ loading = signal<boolean>(false)
 
 
 
-  async getAllProducts() {
+  async getAllProducts(params: any = {}) {
     this.loading.set(true);
-    this.http.get<any>(`${this.apiUrl}/api/v1/products`).subscribe({
+    this.http.get<any>(`${this.apiUrl}/api/v1/products`, { params }).subscribe({
       next: (res) => {
         // Handle wrapped responses (e.g. { data: [...] } or { products: [...] })
         let data = Array.isArray(res) ? res : (res.data || res.products || []);

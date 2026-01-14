@@ -38,6 +38,7 @@ export class ProductFormComponent implements OnInit {
   constructor() {
     this.productForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(3)]],
+      barcode: ['', [Validators.required]],
       description: ['', [Validators.required, Validators.minLength(20)]],
       price: [0, [Validators.required, Validators.min(0)]],
       quantity: [0, [Validators.required, Validators.min(0)]],
@@ -70,6 +71,7 @@ export class ProductFormComponent implements OnInit {
         this.loadProduct(this.productId!);
          this.productForm.get('imageCover')?.clearValidators(); 
          this.productForm.get('imageCover')?.updateValueAndValidity();
+         // Barcode might be unique, so keep it required but maybe handle uniqueness error from backend
       }
     });
 
@@ -94,6 +96,7 @@ export class ProductFormComponent implements OnInit {
         
         this.productForm.patchValue({
           title: product.title,
+          barcode: product.barcode,
           description: product.description,
           price: product.price,
           quantity: product.quantity,
@@ -154,6 +157,7 @@ export class ProductFormComponent implements OnInit {
     const values = this.productForm.value;
 
     formData.append('title', values.title);
+    formData.append('barcode', values.barcode);
     formData.append('description', values.description);
     formData.append('price', values.price);
     formData.append('quantity', values.quantity);
