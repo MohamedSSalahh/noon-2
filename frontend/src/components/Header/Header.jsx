@@ -24,12 +24,37 @@ const Header = () => {
           mx: 'auto', 
           px: { xs: 2, lg: 4 }, 
           gap: { xs: 2, lg: 4 },
-          minHeight: { xs: '64px', lg: '70px' }
+          minHeight: { xs: '80px', lg: '90px' } // Taller header for luxury feel
       }}>
-        <LeftHeader />
+        {/* Logo Section */}
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <img src="/assets/logo.png" alt="Twill Home" style={{ height: 50, filter: 'brightness(0) invert(1)' }} />
+        </Box>
+
+        {/* Desktop Navigation Links */}
+        <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 4, ml: 6 }}>
+            {['SHOP', 'BATH', 'BEDROOM', 'LIVING', 'TRADE'].map((item) => (
+                <Box 
+                    component="a" 
+                    href={item === 'SHOP' ? '/' : '#'} 
+                    key={item}
+                    sx={{ 
+                        color: 'white', 
+                        textDecoration: 'none', 
+                        fontSize: '0.85rem', 
+                        fontWeight: 500, 
+                        letterSpacing: '0.1em',
+                        transition: 'color 0.2s',
+                        '&:hover': { color: 'secondary.main' } 
+                    }}
+                >
+                    {item}
+                </Box>
+            ))}
+        </Box>
         
         {/* Desktop Search */}
-        <Box sx={{ flexGrow: 1,  maxWidth: '800px', display: { xs: 'none', md: 'block' } }}>
+        <Box sx={{ flexGrow: 1,  maxWidth: '400px', ml: 'auto', display: { xs: 'none', md: 'block' } }}>
              <Paper
                 component="form"
                 onSubmit={handleSearch}
@@ -38,19 +63,22 @@ const Header = () => {
                     display: 'flex', 
                     alignItems: 'center', 
                     width: '100%',
-                    height: 40,
-                    borderRadius: 2,
+                    height: 35,
+                    borderRadius: 0, // Squared
+                    bgcolor: 'rgba(255,255,255,0.1)', // Translucent
+                    color: 'white',
+                    borderBottom: '1px solid rgba(255,255,255,0.3)',
                     boxShadow: 'none'
                 }}
              >
                 <InputBase
-                    sx={{ ml: 1, flex: 1, fontSize: '0.875rem' }}
-                    placeholder="What are you looking for?"
+                    sx={{ ml: 1, flex: 1, fontSize: '0.8rem', color: 'white', '&::placeholder': { color: 'rgba(255,255,255,0.6)', opacity: 1 } }}
+                    placeholder="Search collections..."
                     value={keyword}
                     onChange={(e) => setKeyword(e.target.value)}
                 />
-                <IconButton type="submit" sx={{ p: '10px', color: 'primary.main' }} aria-label="search">
-                    <SearchIcon />
+                <IconButton type="submit" sx={{ p: '5px', color: 'white' }} aria-label="search">
+                    <SearchIcon fontSize="small" />
                 </IconButton>
              </Paper>
         </Box>

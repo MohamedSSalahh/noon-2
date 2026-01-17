@@ -10,7 +10,7 @@ import { AuthService } from '../../core/services/auth.service';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './admin-chat.component.html',
-  styleUrls: ['./admin-chat.component.css']
+  styleUrls: ['./admin-chat.css']
 })
 export class AdminChatComponent implements OnInit, OnDestroy {
   conversations: any[] = [];
@@ -89,7 +89,21 @@ export class AdminChatComponent implements OnInit, OnDestroy {
         createdAt: new Date().toISOString()
     });
 
-    this.chatService.sendMessage(msgData);
+    this.chatService.createMessage(msgData).subscribe({
+      next: (res: any) => {
+        // Update the temp message with real ID if needed, or just let the socket receive handler handle duplicates?
+        // Actually, since we optimistically pushed, we might want to update the ID.
+        // For simplicity, we assume the socket event will come back.
+        // If we want to avoid duplication in UI, we should check IDs.
+        // We already have a check in ngOnInit: `if (!exists)`.
+      },
+      error: (err) => {
+        console.error('Failed to send message', err);
+        // Optionally remove the optimistic message
+      }
+    });
+
+    // this.chatService.sendMessage(msgData); // Removed socket emit
     this.newMessage = '';
   }
 

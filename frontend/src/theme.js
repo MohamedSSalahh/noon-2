@@ -1,96 +1,89 @@
 import { createTheme } from '@mui/material/styles';
 
-// Sweet Oliver Green Palette
-const noonColors = {
-  oliveMain: '#556B2F', // Dark Olive Green - Elegant and Premium
-  oliveDark: '#3B4D1F', // Darker shade for hover
-  oliveLight: '#8F9779', // Lighter accent
-  black: '#2C3439',     // Softer Black
+// TWILL HOME Luxury Palette
+const twillColors = {
+  navyMain: '#0B1C33',   // Midnight Navy
+  navyDark: '#050D1A',   // Deepest Navy
+  navyLight: '#1A2E4D',  // Lighter Navy
+  goldMain: '#D4AF37',   // Champagne Gold
+  goldLight: '#F3E5AB',  // Pale Gold
+  slateMain: '#708090',  // Slate Grey
+  slateLight: '#EBE9E4', // Off-white/Beige tint for backgrounds
+  black: '#1A1A1A',      // Soft Black
   white: '#FFFFFF',
-  greyBg: '#F4F6F3',    // Very light greenish-grey tint for background
-  textSecondary: '#6D7478',
-  divider: '#E0E4DE',
-  success: '#4CAF50',
-  error: '#D32F2F',
-  info: '#0288D1'
+  textSecondary: '#5A6A78'
 };
 
 const theme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: noonColors.oliveMain,
-      dark: noonColors.oliveDark,
-      light: noonColors.oliveLight,
-      contrastText: noonColors.white,
+      main: twillColors.navyMain,
+      dark: twillColors.navyDark,
+      light: twillColors.navyLight,
+      contrastText: twillColors.white,
     },
     secondary: {
-      main: noonColors.black,
-      contrastText: noonColors.white,
-    },
-    error: {
-      main: noonColors.error,
-    },
-    success: {
-      main: noonColors.success,
-    },
-    info: {
-      main: noonColors.info,
+      main: twillColors.goldMain,
+      light: twillColors.goldLight,
+      contrastText: twillColors.navyMain,
     },
     background: {
-      default: noonColors.greyBg,
-      paper: noonColors.white,
+      default: twillColors.slateLight,
+      paper: twillColors.white,
     },
     text: {
-      primary: noonColors.black,
-      secondary: noonColors.textSecondary,
+      primary: twillColors.navyMain,
+      secondary: twillColors.textSecondary,
     },
-    divider: noonColors.divider,
+    divider: 'rgba(11, 28, 51, 0.12)', // Navy tint divider
   },
   typography: {
     fontFamily: [
-      '"Inter"',
-      '"Outfit"', // Adding Outfit for a friendlier "sweet" look if available, else Inter
-      '"Roboto"',
+      '"Playfair Display"', // Serif for headings
+      '"Inter"',            // Sans-serif for body
       'sans-serif',
     ].join(','),
-    h1: { fontWeight: 800 },
-    h2: { fontWeight: 700 },
-    h3: { fontWeight: 700 },
-    h4: { fontWeight: 600 },
-    h5: { fontWeight: 600 },
-    h6: { fontWeight: 600 },
-    subtitle1: { fontWeight: 500 },
-    subtitle2: { fontWeight: 600, fontSize: '0.9rem' },
+    h1: { fontFamily: '"Playfair Display", serif', fontWeight: 700 },
+    h2: { fontFamily: '"Playfair Display", serif', fontWeight: 600 },
+    h3: { fontFamily: '"Playfair Display", serif', fontWeight: 600 },
+    h4: { fontFamily: '"Playfair Display", serif', fontWeight: 500 },
+    h5: { fontFamily: '"Playfair Display", serif', fontWeight: 500 },
+    h6: { fontFamily: '"Inter", sans-serif', fontWeight: 600, letterSpacing: '0.05em', textTransform: 'uppercase' },
     button: {
-      fontWeight: 700,
-      textTransform: 'none',
+      fontFamily: '"Inter", sans-serif',
+      fontWeight: 500,
+      letterSpacing: '0.05em',
     },
+    body1: { fontFamily: '"Inter", sans-serif' },
+    body2: { fontFamily: '"Inter", sans-serif' },
   },
   shape: {
-    borderRadius: 12, // More rounded = sweeter
+    borderRadius: 4, // Sharper corners for luxury feel
   },
   components: {
     MuiCssBaseline: {
       styleOverrides: {
         body: {
-          backgroundColor: noonColors.greyBg,
+          backgroundColor: twillColors.slateLight,
+          color: twillColors.navyMain,
         },
       },
     },
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: '12px',
-          padding: '10px 20px',
+          borderRadius: 0, // Sharp edges for luxury
+          padding: '12px 28px',
           boxShadow: 'none',
           '&:hover': {
-            boxShadow: '0 4px 12px rgba(85, 107, 47, 0.2)', // Olive shadow
+            boxShadow: 'none',
           },
         },
         containedPrimary: {
+           backgroundColor: twillColors.navyMain,
            '&:hover': {
-              backgroundColor: noonColors.oliveDark,
+              backgroundColor: twillColors.navyLight,
            }
         }
       },
@@ -98,41 +91,16 @@ const theme = createTheme({
     MuiAppBar: {
       styleOverrides: {
         root: {
-          backgroundColor: noonColors.oliveMain,
-          color: noonColors.white,
-          boxShadow: '0 4px 20px rgba(0,0,0,0.05)',
+          backgroundColor: twillColors.navyMain,
+          color: twillColors.white,
+          boxShadow: 'none',
         },
       },
     },
-    MuiCard: {
+    MuiPaper: {
         styleOverrides: {
             root: {
-                boxShadow: '0 2px 12px rgba(0,0,0,0.04)',
-                border: '1px solid transparent',
-                borderRadius: '16px',
-                '&:hover': {
-                    boxShadow: '0 8px 24px rgba(85, 107, 47, 0.15)', // Olive shadow on hover
-                    borderColor: noonColors.oliveLight,
-                }
-            }
-        }
-    },
-    MuiChip: {
-        styleOverrides: {
-            root: {
-                fontWeight: 600,
-                borderRadius: '8px',
-            }
-        }
-    },
-     MuiIconButton: {
-        styleOverrides: {
-            root: {
-                transition: 'all 0.2s',
-                '&:hover': {
-                    color: noonColors.oliveMain,
-                    backgroundColor: 'rgba(85, 107, 47, 0.08)'
-                }
+                backgroundImage: 'none',
             }
         }
     }

@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CmsService } from '../../services/cms.service';
 
 @Component({
   selector: 'app-textiles-manager',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './textiles-manager.component.html',
-  styleUrls: ['./textiles-manager.component.css']
+  styleUrls: ['./textiles-manager.css']
 })
 export class TextilesManagerComponent implements OnInit {
   cmsForm: FormGroup;
