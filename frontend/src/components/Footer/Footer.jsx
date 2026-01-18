@@ -36,54 +36,57 @@ const Footer = () => {
     );
 
     return (
-        <Box component="footer" sx={{ bgcolor: 'background.paper', pt: 6, pb: 3, mt: 'auto', borderTop: '1px solid', borderColor: 'divider' }}>
+        <Box component="footer" sx={{ bgcolor: '#081424', color: 'rgba(255,255,255,0.7)', pt: 10, pb: 4, mt: 'auto' }}>
             <Container maxWidth="xl">
-                <Grid container spacing={4} sx={{ mb: 6 }}>
-                    <Grid size={{ xs: 12, sm: 6, md: 4, lg: 2.4 }}>
+                <Grid container spacing={6} sx={{ mb: 8 }}>
+                    {/* Brand Column */}
+                    <Grid item xs={12} md={4}>
+                         <Box sx={{ mb: 3 }}>
+                            <img src="/assets/logo.png" alt="Twill Home" style={{ height: 40, filter: 'brightness(0) invert(1)' }} />
+                         </Box>
+                         <Typography variant="body2" sx={{ lineHeight: 1.8, maxWidth: 300, mb: 3 }}>
+                             Elevating everyday living with premium textiles. Crafted with care, designed for comfort, and built to last a lifetime.
+                         </Typography>
+                    </Grid>
+
+                    <Grid item xs={6} md={2}>
                         <FooterSection 
-                            title="We're Always Here To Help" 
-                            links={["Help Center", "Contact Us"]} 
+                            title="Shop" 
+                            links={["Bath Collections", "Bedroom", "Living Room", "New Arrivals", "Best Sellers"]} 
                         />
                     </Grid>
-                    <Grid size={{ xs: 12, sm: 6, md: 4, lg: 2.4 }}>
+                    <Grid item xs={6} md={2}>
                         <FooterSection 
-                            title="Fabrics" 
-                            links={["Cotton", "Silk", "Wool", "Linen", "Velvet"]} 
+                            title="Support" 
+                            links={["Help Center", "Shipping & Returns", "Care Guide", "Trade Program", "Contact Us"]} 
                         />
                     </Grid>
-                    <Grid size={{ xs: 12, sm: 6, md: 4, lg: 2.4 }}>
-                        <FooterSection 
-                            title="Yarns & Threads" 
-                            links={["Embroidery", "Knitting", "Crochet", "Sewing Threads"]} 
-                        />
-                    </Grid>
-                    <Grid size={{ xs: 12, sm: 6, md: 4, lg: 2.4 }}>
-                        <FooterSection 
-                            title="Sewing Essentials" 
-                            links={["Machines", "Needles", "Scissors", "Measuring Tools"]} 
-                        />
-                    </Grid>
-                    <Grid size={{ xs: 12, sm: 6, md: 4, lg: 2.4 }}>
-                        <FooterSection 
-                            title="Accessories" 
-                            links={["Buttons", "Zippers", "Ribbons", "Lace & Trims"]} 
-                        />
+                    <Grid item xs={12} md={4}>
+                        <Typography variant="subtitle2" sx={{ color: 'white', fontWeight: 700, textTransform: 'uppercase', mb: 2, letterSpacing: '0.05em' }}>
+                            Stay in the Loop
+                        </Typography>
+                        <Typography variant="body2" sx={{ mb: 2 }}>
+                            Subscribe to receive updates, access to exclusive deals, and more.
+                        </Typography>
+                        <Box sx={{ display: 'flex', borderBottom: '1px solid rgba(255,255,255,0.3)', pb: 1 }}>
+                            <input 
+                                type="email" 
+                                placeholder="Enter your email" 
+                                style={{ background: 'transparent', border: 'none', color: 'white', flex: 1, outline: 'none' }}
+                            />
+                            <Typography sx={{ color: 'secondary.main', cursor: 'pointer', fontWeight: 600, fontSize: '0.8rem' }}>SUBSCRIBE</Typography>
+                        </Box>
                     </Grid>
                 </Grid>
 
-                <Box sx={{ pt: 4, borderTop: '1px solid', borderColor: 'divider', display: 'flex', flexDirection: { xs: 'column', md: 'row' }, alignItems: 'center', justifyContent: 'space-between', gap: 2 }}>
-                    <Box sx={{ textAlign: { xs: 'center', md: 'left' } }}>
-                        <Typography variant="subtitle2" sx={{ fontWeight: 700, mb: 1 }}>Connect with us</Typography>
-                        <Stack direction="row" spacing={1}>
-                            <IconButton color="default" sx={{ bgcolor: 'action.hover', '&:hover': { bgcolor: 'primary.main' } }}><FacebookIcon /></IconButton>
-                            <IconButton color="default" sx={{ bgcolor: 'action.hover', '&:hover': { bgcolor: 'primary.main' } }}><TwitterIcon /></IconButton>
-                            <IconButton color="default" sx={{ bgcolor: 'action.hover', '&:hover': { bgcolor: 'primary.main' } }}><InstagramIcon /></IconButton>
-                            <IconButton color="default" sx={{ bgcolor: 'action.hover', '&:hover': { bgcolor: 'primary.main' } }}><LinkedInIcon /></IconButton>
-                        </Stack>
-                    </Box>
-                    <Typography variant="caption" color="text.secondary">
-                        © {new Date().getFullYear()} Lyver for Textiles. All Rights Reserved.
+                <Box sx={{ pt: 4, borderTop: '1px solid rgba(255,255,255,0.1)', display: 'flex', flexDirection: { xs: 'column', md: 'row' }, alignItems: 'center', justifyContent: 'space-between', gap: 2 }}>
+                    <Typography variant="caption" sx={{ letterSpacing: '0.05em' }}>
+                        © {new Date().getFullYear()} TWILL HOME. All Rights Reserved.
                     </Typography>
+                    <Stack direction="row" spacing={2}>
+                        <IconButton size="small" sx={{ color: 'white', '&:hover': { color: 'secondary.main' } }}><FacebookIcon fontSize="small" /></IconButton>
+                        <IconButton size="small" sx={{ color: 'white', '&:hover': { color: 'secondary.main' } }}><InstagramIcon fontSize="small" /></IconButton>
+                    </Stack>
                 </Box>
             </Container>
         </Box>

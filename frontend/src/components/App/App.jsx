@@ -34,7 +34,9 @@ import { Navigate } from 'react-router-dom';
 import Cart from '../Cart/Cart';
 import Wishlist from '../Wishlist/Wishlist';
 import Orders from '../User/Orders';
+
 import OrderSuccess from '../User/OrderSuccess';
+import Textiles from '../Textiles/Textiles';
 
 function App() {
   const { user } = useSelector((state) => state.authState);
@@ -59,7 +61,7 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <div className="App max-w-[1920px] mx-auto w-full shadow-xl bg-white min-h-screen">
         <ThemeProvider theme={theme}>
             <CssBaseline />
             <ToastContainer position="top-right" autoClose={3000} />
@@ -135,6 +137,7 @@ function App() {
                 <Route path="/search" element={<Search />} />
                 <Route path="/:categoryTitle/" element={<Category />} />
                 <Route path="/:catTitle/:subID/:productID/" element={<Product />} />
+                <Route path="/textiles" element={<Textiles />} />
             </Routes>
                 <Footer />
             </BrowserRouter>

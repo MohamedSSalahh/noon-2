@@ -25,6 +25,33 @@ const ChatWidget = () => {
     const typingTimeoutRef = useRef(null);
     const [isTyping, setIsTyping] = useState(false);
 
+    const [conversationId, setConversationId] = useState(null);
+
+    // Fetch conversation ID
+    useEffect(() => {
+        if (user && token && adminId) {
+            const initChat = async () => {
+                try {
+                    const res = await fetch(`${API_URL}/chat`, {
+                        method: 'POST',
+                        headers: { 
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${token}` 
+                        },
+                        body: JSON.stringify({ receiverId: adminId })
+                    });
+                    const data = await res.json();
+                    if (data.status === 'success') {
+                        setConversationId(data.data._id);
+                    }
+                } catch (err) {
+                    console.error("Failed to init chat", err);
+                }
+            };
+            initChat();
+        }
+    }, [user, token, adminId]);
+
     // Fetch Real Admin ID on mount
     useEffect(() => {
         if (user && token) {
@@ -48,11 +75,12 @@ const ChatWidget = () => {
     useEffect(() => {
         if (user && token && adminId) {
             socketRef.current = io(SOCKET_URL);
-            socketRef.current.emit('join', user._id);
+            socketRef.current.emit('join_chat', user._id);
 
-            socketRef.current.on('receiveMessage', (message) => {
-                dispatch(addMessage(message));
-                setIsTyping(false); // Stop typing if message received
+            socketRef.current.on('receive_message', (message) => {
+                // Adapt message format if needed
+                dispatch(addMessage({ ...message, message: message.text })); 
+                setIsTyping(false); 
             });
 
             socketRef.current.on('typing', (senderId) => {
@@ -63,7 +91,6 @@ const ChatWidget = () => {
                  if (senderId === adminId) setIsTyping(false);
             });
             
-            // Pass adminId to fetch history between USER and ADMIN
             dispatch(fetchChatHistory(adminId));
 
             return () => {
@@ -76,20 +103,46 @@ const ChatWidget = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [messages, isOpen]);
 
-    const handleSendMessage = (e) => {
+    const handleSendMessage = async (e) => {
         e.preventDefault();
-        if (!messageInput.trim() || !socketRef.current || !adminId) return;
+        if (!messageInput.trim() || !adminId) return;
 
-        const messageData = {
-            sender: user._id,
-            receiver: adminId, 
-            message: messageInput,
-        };
+        const tempId = Date.now().toString();
+        const messageText = messageInput;
+        setMessageInput(''); // Clear input immediately
+        setIsTyping(false);
+        if (socketRef.current) {
+             socketRef.current.emit('stopTyping', { sender: user._id, receiver: adminId });
+        }
 
-        socketRef.current.emit('sendMessage', messageData);
         // Optimistically add
-        dispatch(addMessage({ ...messageData, _id: Date.now().toString(), createdAt: new Date().toISOString() })); 
-        setMessageInput('');
+        const optimMessage = { 
+            _id: tempId, 
+            createdAt: new Date().toISOString(), 
+            message: messageText.trim(), 
+            sender: user._id 
+        };
+        dispatch(addMessage(optimMessage)); 
+
+        try {
+            const res = await fetch(`${API_URL}/chat/message`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    receiverId: adminId,
+                    text: messageText,
+                    conversationId: conversationId
+                })
+            });
+            const data = await res.json();
+             // We could update the ID here if needed
+        } catch (err) {
+            console.error("Failed to send message", err);
+            // Verify failure handling (remove optimistic message?)
+        }
     };
 
     if (!user || user.role === 'admin') return null;

@@ -107,8 +107,8 @@ const RightHeader = () => {
                 </>
             )}
 
-            {/* Cart & Wishlist - Hidden for Admin */}
-            {(!user || user.role !== 'admin') && (
+            {/* Cart & Wishlist - Hidden for Admin & Guests */}
+            {(user && user.role !== 'admin') && (
                 <>
                     {/* Cart */}
                     <IconButton 
