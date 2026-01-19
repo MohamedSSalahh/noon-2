@@ -1,0 +1,120 @@
+<div class="p-6 bg-gray-50 min-h-screen h-[calc(100vh-64px)] flex gap-6">
+  
+  <!-- Left Side: Product Selection -->
+  <div class="flex-1 flex flex-col bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+    <!-- Search Header -->
+    <div class="p-4 border-b border-gray-100 flex gap-4">
+      <div class="relative flex-1">
+        <lucide-icon [img]="SearchIcon" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"></lucide-icon>
+        <input 
+          (input)="updateSearch($event)"
+          type="text" 
+          placeholder="Search products by name or barcode..." 
+          class="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none transition"
+          autofocus
+        >
+      </div>
+    </div>
+
+    <!-- Product Grid -->
+    <div class="flex-1 overflow-y-auto p-4">
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <button 
+          *ngFor="let product of filteredProducts()" 
+          (click)="addToCart(product)"
+          [disabled]="product.quantity <= 0"
+          class="flex flex-col text-left p-3 border border-gray-200 rounded-lg hover:border-indigo-500 hover:shadow-md transition group bg-white disabled:opacity-60 disabled:cursor-not-allowed"
+        >
+          <div class="aspect-square bg-gray-100 rounded-md mb-3 flex items-center justify-center overflow-hidden">
+            <img *ngIf="product.imageCover" [src]="product.imageCover" alt="" class="w-full h-full object-cover">
+            <span *ngIf="!product.imageCover" class="text-gray-400 text-xs">No Image</span>
+          </div>
+          <h4 class="font-medium text-gray-900 line-clamp-2 text-sm">{{ product.title }}</h4>
+          <div class="mt-auto pt-2 flex justify-between items-center text-sm">
+            <span class="font-bold text-indigo-600">{{ product.price | currency }}</span>
+            <span class="text-xs text-gray-500">{{ product.quantity }} in stock</span>
+          </div>
+        </button>
+      </div>
+
+      <div *ngIf="filteredProducts().length === 0" class="h-full flex flex-col items-center justify-center text-gray-400">
+        <lucide-icon [img]="SearchIcon" class="w-12 h-12 mb-2 opacity-50"></lucide-icon>
+        <p>No products found</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Side: Cart & Order Details -->
+  <div class="w-96 flex flex-col bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+    <div class="p-4 bg-gray-50 border-b border-gray-100">
+      <h2 class="font-semibold text-gray-900 flex items-center gap-2">
+        <lucide-icon [img]="CartIcon" class="w-5 h-5"></lucide-icon>
+        New Order
+      </h2>
+    </div>
+
+    <!-- Scrollable Items -->
+    <div class="flex-1 overflow-y-auto p-4 space-y-3">
+      <div *ngFor="let item of cart()" class="flex gap-3 items-center">
+        <div class="w-12 h-12 bg-gray-100 rounded-md flex-shrink-0 overflow-hidden">
+             <img *ngIf="item.product.imageCover" [src]="item.product.imageCover" class="w-full h-full object-cover">
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="text-sm font-medium text-gray-900 truncate">{{ item.product.title }}</p>
+          <div class="flex items-center gap-2 mt-1">
+             <button (click)="updateQuantity(item.product._id, -1)" class="w-5 h-5 rounded bg-gray-200 hover:bg-gray-300 flex items-center justify-center text-gray-700">-</button>
+             <span class="text-sm w-4 text-center">{{ item.quantity }}</span>
+             <button (click)="updateQuantity(item.product._id, 1)" class="w-5 h-5 rounded bg-gray-200 hover:bg-gray-300 flex items-center justify-center text-gray-700">+</button>
+             <span class="text-xs text-gray-500 ml-2">x {{ item.product.price | currency }}</span>
+          </div>
+        </div>
+        <div class="text-right">
+          <p class="font-medium text-indigo-600">{{ item.product.price * item.quantity | currency }}</p>
+          <button (click)="removeFromCart(item.product._id)" class="text-red-400 hover:text-red-600 text-xs mt-1">Remove</button>
+        </div>
+      </div>
+
+      <div *ngIf="cart().length === 0" class="h-40 flex flex-col items-center justify-center text-gray-400 text-sm italic">
+        Cart is empty
+      </div>
+    </div>
+
+    <!-- Form Inputs & Totals -->
+    <div class="p-4 bg-gray-50 border-t border-gray-100 space-y-4" [formGroup]="orderForm">
+      <div>
+        <label class="block text-xs font-medium text-gray-700 mb-1">Customer / Notes</label>
+        <div class="relative">
+          <lucide-icon [img]="UserIcon" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"></lucide-icon>
+          <input formControlName="customerName" type="text" class="w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-lg outline-none focus:border-indigo-500" placeholder="Customer Name">
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-xs font-medium text-gray-700 mb-1">Place Name / Location</label>
+        <div class="relative">
+          <lucide-icon [img]="PinIcon" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"></lucide-icon>
+          <input formControlName="placeName" type="text" class="w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-lg outline-none focus:border-indigo-500" placeholder="e.g. Store 1, Warehouse A">
+        </div>
+        <div *ngIf="orderForm.get('placeName')?.invalid && orderForm.get('placeName')?.touched" class="text-red-500 text-[10px] mt-1">
+            Place Name is required
+        </div>
+      </div>
+
+      <div class="pt-2 border-t border-gray-200">
+        <div class="flex justify-between items-end mb-4">
+          <span class="text-gray-600 font-medium">Total To Pay</span>
+          <span class="text-2xl font-bold text-gray-900">{{ cartTotal() | currency }}</span>
+        </div>
+
+        <button 
+          (click)="submitOrder()"
+          [disabled]="loading() || cart().length === 0"
+          class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold shadow-lg shadow-indigo-200 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+        >
+          <span *ngIf="!loading()">Complete Order</span>
+          <span *ngIf="loading()">Processing...</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

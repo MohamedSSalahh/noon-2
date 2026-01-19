@@ -1,0 +1,115 @@
+<div class="p-6 bg-gray-50 min-h-screen">
+  <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900">Inventory Management</h1>
+      <p class="text-gray-500">Manage stock, track low inventory, and update products.</p>
+    </div>
+    <div class="flex gap-3">
+      <button (click)="exportPdf()" class="bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 px-4 py-2 rounded-lg flex items-center gap-2 font-medium transition shadow-sm">
+        <lucide-icon [img]="FileTextIcon" class="w-5 h-5"></lucide-icon>
+        Export Report
+      </button>
+      <button (click)="openAddModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 font-medium transition shadow-sm">
+        <lucide-icon [img]="PlusIcon" class="w-5 h-5"></lucide-icon>
+        Add Product
+      </button>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+    <!-- Filters Toolbar -->
+    <div class="p-4 border-b border-gray-100 flex flex-col md:flex-row gap-4 items-center justify-between bg-white">
+      <div class="relative w-full md:w-96">
+        <lucide-icon [img]="SearchIcon" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"></lucide-icon>
+        <input 
+          [formControl]="searchControl"
+          type="text" 
+          placeholder="Search by title or barcode..." 
+          class="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition"
+        >
+      </div>
+      
+      <div class="flex items-center gap-3 w-full md:w-auto">
+        <lucide-icon [img]="FilterIcon" class="w-5 h-5 text-gray-500"></lucide-icon>
+        <select [formControl]="filterControl" class="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 w-full md:w-auto outline-none transition">
+          <option value="all">All Items</option>
+          <option value="low">Low Stock</option>
+          <option value="out">Out of Stock</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="overflow-x-auto">
+      <table class="w-full text-left border-collapse">
+        <thead class="bg-gray-50 text-gray-600 font-medium text-sm">
+          <tr>
+            <th class="px-6 py-4">Product</th>
+            <th class="px-6 py-4">Category</th>
+            <th class="px-6 py-4 text-center">Reorder Point</th>
+            <th class="px-6 py-4 text-center">Stock</th>
+            <th class="px-6 py-4 text-center">Status</th>
+            <th class="px-6 py-4 text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+          <tr *ngFor="let product of filteredProducts()" class="hover:bg-gray-50 transition group">
+            <td class="px-6 py-4">
+              <div class="font-medium text-gray-900">{{ product.title }}</div>
+              <div class="text-xs text-mono text-gray-500">{{ product.barcode || '---' }}</div>
+            </td>
+            <td class="px-6 py-4 text-gray-600">{{ product.category?.name || 'N/A' }}</td>
+            <td class="px-6 py-4 text-center text-gray-600">{{ product.reorderPoint || 10 }}</td>
+            <td class="px-6 py-4">
+              <div class="flex items-center justify-center gap-3">
+                <button (click)="adjustStock(product, -1)" class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 transition disabled:opacity-50" [disabled]="product.quantity <= 0">
+                  <lucide-icon [img]="MinusIcon" class="w-4 h-4"></lucide-icon>
+                </button>
+                <span class="font-medium w-8 text-center" [ngClass]="{'text-red-600': product.quantity === 0}">{{ product.quantity }}</span>
+                <button (click)="adjustStock(product, 1)" class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 transition">
+                  <lucide-icon [img]="PlusIcon" class="w-4 h-4"></lucide-icon>
+                </button>
+              </div>
+            </td>
+            <td class="px-6 py-4 text-center">
+               <span class="px-2.5 py-1 text-xs font-medium rounded-full" 
+                [ngClass]="{
+                  'bg-red-100 text-red-700': product.quantity === 0, 
+                  'bg-orange-100 text-orange-700': product.quantity > 0 && product.quantity < (product.reorderPoint || 10),
+                  'bg-green-100 text-green-700': product.quantity >= (product.reorderPoint || 10)
+                }">
+                {{ product.quantity === 0 ? 'Out of Stock' : (product.quantity < (product.reorderPoint || 10) ? 'Low Stock' : 'In Stock') }}
+              </span>
+            </td>
+            <td class="px-6 py-4 text-right">
+              <div class="flex items-center justify-end gap-2">
+                <button (click)="openEditModal(product)" class="p-2 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition" title="Edit">
+                  <lucide-icon [img]="EditIcon" class="w-5 h-5"></lucide-icon>
+                </button>
+                <button (click)="deleteProduct(product._id)" class="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition" title="Delete">
+                  <lucide-icon [img]="TrashIcon" class="w-5 h-5"></lucide-icon>
+                </button>
+              </div>
+            </td>
+          </tr>
+          <tr *ngIf="filteredProducts().length === 0">
+            <td colspan="6" class="px-6 py-12 text-center text-gray-500">
+              <div class="flex flex-col items-center gap-2">
+                <lucide-icon [img]="SearchIcon" class="w-8 h-8 text-gray-300"></lucide-icon>
+                <p>No products found matching your search.</p>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <app-product-inventory-form 
+    *ngIf="showModal"
+    [product]="selectedProduct"
+    (close)="closeModal()"
+    (saved)="handleProductSaved()"
+  ></app-product-inventory-form>
+</div>

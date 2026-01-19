@@ -3,6 +3,7 @@ import { inject, Injectable, signal } from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
 import { Product } from '../models/proudct.model';
+import { InventoryStats } from '../models/inventory-stats.model';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
@@ -14,6 +15,7 @@ export class ProductServiceTs {
  
 products = signal<Product[]>([])
 loading = signal<boolean>(false)
+inventoryStats = signal<InventoryStats | null>(null);
 
 
 
@@ -38,6 +40,7 @@ loading = signal<boolean>(false)
           });
 
         this.products.set(data);
+        this.calculateInventoryStats();
       },
       error: (err) => {
         console.error('Error fetching products:', err);
@@ -61,5 +64,28 @@ loading = signal<boolean>(false)
 
   getProductById(id: string) {
     return this.http.get(`${this.apiUrl}/api/v1/products/${id}`);
+  }
+
+  getLowStockProducts() {
+    return this.products().filter(p => p.quantity < (p.reorderPoint || 10));
+  }
+
+  calculateInventoryStats() {
+    const products = this.products();
+    const stats: InventoryStats = {
+      totalValue: products.reduce((sum, p) => sum + (p.price * p.quantity), 0),
+      totalItems: products.length,
+      lowStockCount: products.filter(p => p.quantity < (p.reorderPoint || 10)).length,
+      outOfStockCount: products.filter(p => p.quantity === 0).length
+    };
+    this.inventoryStats.set(stats);
+  }
+
+  getProductByBarcode(barcode: string) {
+    return this.products().find(p => p.barcode === barcode);
+  }
+
+  updateStock(id: string, quantity: number) {
+    return this.http.put(`${this.apiUrl}/api/v1/products/${id}`, { quantity });
   }
 }

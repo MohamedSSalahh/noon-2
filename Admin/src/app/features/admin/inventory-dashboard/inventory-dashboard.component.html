@@ -1,0 +1,91 @@
+<div class="p-6 space-y-6 bg-gray-50 min-h-screen">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <!-- Total Stock Value -->
+    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center space-x-4">
+      <div class="p-3 rounded-full bg-blue-50 text-blue-600">
+        <lucide-icon [img]="DollarIcon" class="w-6 h-6"></lucide-icon>
+      </div>
+      <div>
+        <p class="text-sm font-medium text-gray-500">Total Stock Value</p>
+        <p class="text-2xl font-bold text-gray-900">{{ stats()?.totalValue | currency }}</p>
+      </div>
+    </div>
+
+    <!-- Total Items -->
+    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center space-x-4">
+      <div class="p-3 rounded-full bg-purple-50 text-purple-600">
+        <lucide-icon [img]="PackageIcon" class="w-6 h-6"></lucide-icon>
+      </div>
+      <div>
+        <p class="text-sm font-medium text-gray-500">Total Items</p>
+        <p class="text-2xl font-bold text-gray-900">{{ stats()?.totalItems || 0 }}</p>
+      </div>
+    </div>
+
+    <!-- Low Stock Alerts -->
+    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center space-x-4">
+      <div class="p-3 rounded-full bg-orange-50 text-orange-600">
+        <lucide-icon [img]="AlertIcon" class="w-6 h-6"></lucide-icon>
+      </div>
+      <div>
+        <p class="text-sm font-medium text-gray-500">Low Stock Alerts</p>
+        <p class="text-2xl font-bold text-orange-600">{{ stats()?.lowStockCount || 0 }}</p>
+      </div>
+    </div>
+
+    <!-- Out of Stock -->
+    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center space-x-4">
+      <div class="p-3 rounded-full bg-red-50 text-red-600">
+        <lucide-icon [img]="AlertIcon" class="w-6 h-6"></lucide-icon>
+      </div>
+      <div>
+        <p class="text-sm font-medium text-gray-500">Out of Stock</p>
+        <p class="text-2xl font-bold text-red-600">{{ stats()?.outOfStockCount || 0 }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Low Stock Products Table -->
+  <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+    <div class="p-6 border-b border-gray-100">
+      <h3 class="text-lg font-semibold text-gray-900">Low Stock Alerts</h3>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full text-left">
+        <thead class="bg-gray-50 text-gray-600 font-medium text-sm">
+          <tr>
+            <th class="px-6 py-3">Product</th>
+            <th class="px-6 py-3">Category</th>
+            <th class="px-6 py-3">Stock</th>
+            <th class="px-6 py-3">Reorder Point</th>
+            <th class="px-6 py-3">Status</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+          <tr *ngFor="let item of lowStockItems" class="hover:bg-gray-50 transition">
+            <td class="px-6 py-4">
+              <div class="font-medium text-gray-900">{{ item.title }}</div>
+              <div class="text-xs text-gray-500">{{ item.barcode || 'No Barcode' }}</div>
+            </td>
+            <td class="px-6 py-4 text-gray-600">{{ item.category?.name || 'N/A' }}</td>
+            <td class="px-6 py-4 font-medium" [ngClass]="{'text-red-600': item.quantity === 0, 'text-orange-600': item.quantity > 0}">
+              {{ item.quantity }}
+            </td>
+            <td class="px-6 py-4 text-gray-600">{{ item.reorderPoint || 10 }}</td>
+            <td class="px-6 py-4">
+              <span class="px-2 py-1 text-xs rounded-full" 
+                [ngClass]="{'bg-red-100 text-red-700': item.quantity === 0, 'bg-orange-100 text-orange-700': item.quantity > 0}">
+                {{ item.quantity === 0 ? 'Out of Stock' : 'Low Stock' }}
+              </span>
+            </td>
+          </tr>
+          <tr *ngIf="lowStockItems.length === 0">
+            <td colspan="5" class="px-6 py-8 text-center text-gray-500">
+              No low stock alerts. Inventory is healthy!
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

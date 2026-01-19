@@ -46,6 +46,14 @@ export const routes: Routes = [
         loadComponent: () => import('./features/admin/product-form/product-form').then(m => m.ProductFormComponent)
       },
       {
+        path: 'inventory',
+        loadComponent: () => import('./features/admin/inventory-table/inventory-table.component').then(m => m.InventoryTableComponent)
+      },
+      {
+        path: 'inventory/dashboard',
+        loadComponent: () => import('./features/admin/inventory-dashboard/inventory-dashboard.component').then(m => m.InventoryDashboardComponent)
+      },
+      {
         path: 'categories',
         loadComponent: () => import('./features/admin/admin-categories/admin-categories').then(m => m.AdminCategories)
       },
@@ -84,6 +92,14 @@ export const routes: Routes = [
       {
         path: 'reviews',
         loadComponent: () => import('./features/admin/admin-reviews/admin-reviews').then(m => m.AdminReviews)
+      },
+      {
+         path: 'orders/create',
+         loadComponent: () => import('./features/admin/create-order/create-order.component').then(m => m.CreateOrderComponent)
+      },
+      {
+         path: 'orders/edit/:id',
+         loadComponent: () => import('./features/admin/create-order/create-order.component').then(m => m.CreateOrderComponent)
       },
       {
          path: 'orders',

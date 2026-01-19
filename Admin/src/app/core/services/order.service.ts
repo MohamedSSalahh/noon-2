@@ -38,4 +38,20 @@ export class OrderService {
   updateOrderToPaid(id: string) {
     return this.http.put(`${this.apiUrl}/${id}/pay`, {});
   }
+
+  createOrder(orderData: any) {
+    return this.http.post(this.apiUrl, orderData);
+  }
+
+  getOrderById(id: string) {
+    return this.http.get<{data: any}>(`${this.apiUrl}/${id}`);
+  }
+
+  deleteOrder(id: string) {
+    return this.http.delete(`${this.apiUrl}/${id}`);
+  }
+
+  updateOrder(id: string, data: any) {
+    return this.http.put(`${this.apiUrl}/${id}`, data);
+  }
 }

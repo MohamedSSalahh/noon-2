@@ -14,5 +14,7 @@ export interface Product {
   sold: number;
   quantity: number; // Inventory count
   images?: string[];
+  barcode?: string;
+  reorderPoint?: number;
 }
 

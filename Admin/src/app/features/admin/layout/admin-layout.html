@@ -4,10 +4,10 @@
     <div class="h-24 flex items-center px-8">
       <div class="flex items-center gap-3">
         <div class="w-10 h-10 rounded-xl bg-purple-400 flex items-center justify-center shadow-lg shadow-purple-600/20 transform -rotate-3">
-          <span class="text-white font-extrabold text-xl">J</span>
+          <span class="text-white font-extrabold text-xl">A</span>
         </div>
         <div class="flex flex-col">
-            <h1 class="text-xl font-bold tracking-tight text-gray-900 leading-none">jamal</h1>
+            <h1 class="text-xl font-bold tracking-tight text-gray-900 leading-none">Aura</h1>
             <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-0.5">Dashboard</span>
         </div>
       </div>
@@ -32,6 +32,18 @@
         <div class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-purple-600 rounded-r-full opacity-0 transition-opacity duration-200" routerLinkActive="opacity-100"></div>
         <svg class="w-5 h-5 mr-3 transition-colors" [class.text-purple-600]="rlap.isActive" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
         <span class="text-sm">Products</span>
+      </a>
+
+      <a routerLink="/admin/inventory" routerLinkActive="bg-purple-50 text-purple-700 font-semibold" #rlai="routerLinkActive" class="flex items-center px-4 py-3 text-gray-500 rounded-xl hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 group relative">
+        <div class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-purple-600 rounded-r-full opacity-0 transition-opacity duration-200" routerLinkActive="opacity-100"></div>
+        <svg class="w-5 h-5 mr-3 transition-colors" [class.text-purple-600]="rlai.isActive" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+        <span class="text-sm">Inventory</span>
+      </a>
+
+      <a routerLink="/admin/inventory/dashboard" routerLinkActive="bg-purple-50 text-purple-700 font-semibold" #rlad="routerLinkActive" class="flex items-center px-4 py-3 text-gray-500 rounded-xl hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 group relative">
+        <div class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-purple-600 rounded-r-full opacity-0 transition-opacity duration-200" routerLinkActive="opacity-100"></div>
+        <svg class="w-5 h-5 mr-3 transition-colors" [class.text-purple-600]="rlad.isActive" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+        <span class="text-sm">Inv. Dashboard</span>
       </a>
 
       <a routerLink="/admin/categories" routerLinkActive="bg-purple-50 text-purple-700 font-semibold" #rlac="routerLinkActive" class="flex items-center px-4 py-3 text-gray-500 rounded-xl hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 group relative">
