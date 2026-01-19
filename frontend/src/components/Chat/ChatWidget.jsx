@@ -20,12 +20,34 @@ const ChatWidget = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [messageInput, setMessageInput] = useState('');
     const [adminId, setAdminId] = useState(null);
+    const [orders, setOrders] = useState([]);
+    const [selectedOrder, setSelectedOrder] = useState(null);
     const socketRef = useRef();
     const messagesEndRef = useRef(null);
     const typingTimeoutRef = useRef(null);
     const [isTyping, setIsTyping] = useState(false);
 
     const [conversationId, setConversationId] = useState(null);
+
+    // Fetch user's recent orders
+    useEffect(() => {
+        if (user && token) {
+            const fetchOrders = async () => {
+                try {
+                    const res = await fetch(`${API_URL}/orders/my-orders?limit=3`, {
+                        headers: { Authorization: `Bearer ${token}` }
+                    });
+                    const data = await res.json();
+                    if (data.status === 'success') {
+                        setOrders(data.data || []);
+                    }
+                } catch (err) {
+                    console.error("Failed to fetch orders", err);
+                }
+            };
+            fetchOrders();
+        }
+    }, [user, token]);
 
     // Fetch conversation ID
     useEffect(() => {
@@ -186,11 +208,12 @@ const ChatWidget = () => {
                     {/* Header */}
                     <Box sx={{ 
                         bgcolor: 'primary.main', 
-                        p: 2, 
+                        p: 2.5, 
                         display: 'flex', 
                         alignItems: 'center', 
                         justifyContent: 'space-between',
-                        color: 'primary.contrastText'
+                        color: 'primary.contrastText',
+                        borderBottom: '1px solid rgba(212, 175, 55, 0.2)'
                     }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                             <Badge
@@ -199,8 +222,8 @@ const ChatWidget = () => {
                                 variant="dot"
                                 sx={{ 
                                     '& .MuiBadge-badge': { 
-                                        bgcolor: 'success.main',
-                                        color: 'success.main',
+                                        bgcolor: '#D4AF37',
+                                        color: '#D4AF37',
                                         boxShadow: '0 0 0 2px white',
                                         width: 10,
                                         height: 10,
@@ -208,13 +231,13 @@ const ChatWidget = () => {
                                     } 
                                 }}
                             >
-                                <Avatar sx={{ bgcolor: 'rgba(255,255,255,0.2)', color: 'inherit' }}>
+                                <Avatar sx={{ bgcolor: 'rgba(212, 175, 55, 0.2)', color: '#D4AF37', width: 44, height: 44 }}>
                                     <SupportAgentIcon />
                                 </Avatar>
                             </Badge>
                             <Box>
-                                <Typography variant="subtitle1" fontWeight="bold">Noon Support</Typography>
-                                <Typography variant="caption" sx={{ opacity: 0.8 }}>Relies in minutes</Typography>
+                                <Typography variant="subtitle1" fontWeight="600" sx={{ fontFamily: 'Playfair Display' }}>Twill Home Support</Typography>
+                                <Typography variant="caption" sx={{ opacity: 0.85 }}>We're here to help</Typography>
                             </Box>
                         </Box>
                         <IconButton onClick={() => setIsOpen(false)} sx={{ color: 'inherit' }}>
@@ -252,6 +275,65 @@ const ChatWidget = () => {
                             </Paper>
                         </Box>
 
+                        {/* Recent Orders */}
+                        {orders.length > 0 && (
+                            <Box sx={{ my: 2 }}>
+                                <Typography variant="caption" sx={{ px: 1, color: 'text.secondary', fontWeight: 600 }}>
+                                    YOUR RECENT ORDERS
+                                </Typography>
+                                {orders.map((order) => (
+                                    <Paper 
+                                        key={order._id}
+                                        onClick={() => setSelectedOrder(order)}
+                                        sx={{ 
+                                            p: 2, 
+                                            mt: 1,
+                                            bgcolor: selectedOrder?._id === order._id ? '#E8E6E1' : 'white',
+                                            cursor: 'pointer',
+                                            border: '1px solid',
+                                            borderColor: selectedOrder?._id === order._id ? '#D4AF37' : 'divider',
+                                            '&:hover': { borderColor: '#D4AF37' }
+                                        }}
+                                    >
+                                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                                            <Typography variant="body2" fontWeight="600">
+                                                Order #{order._id.slice(-6).toUpperCase()}
+                                            </Typography>
+                                            <Typography variant="caption" sx={{ 
+                                                bgcolor: order.status === 'delivered' ? '#4caf50' : '#ff9800',
+                                                color: 'white',
+                                                px: 1,
+                                                py: 0.5,
+                                                borderRadius: 1
+                                            }}>
+                                                {order.status}
+                                            </Typography>
+                                        </Box>
+                                        <Typography variant="caption" color="text.secondary" display="block">
+                                            {order.items?.length || 0} items • EGP {order.totalPrice}
+                                        </Typography>
+                                        {order.paymentMethod && (
+                                            <Typography variant="caption" sx={{ 
+                                                display: 'inline-block',
+                                                mt: 0.5,
+                                                px: 1,
+                                                py: 0.25,
+                                                bgcolor: '#E8E6E1',
+                                                borderRadius: 1,
+                                                color: 'text.primary'
+                                            }}>
+                                                💳 {order.paymentMethod === 'instapay' ? 'Instapay' : 
+                                                    order.paymentMethod === 'vodafone' ? 'Vodafone Cash' :
+                                                    order.paymentMethod === 'fawry' ? 'Fawry' :
+                                                    order.paymentMethod === 'cod' ? 'Cash on Delivery' : 
+                                                    order.paymentMethod}
+                                            </Typography>
+                                        )}
+                                    </Paper>
+                                ))}
+                            </Box>
+                        )}
+
                         {messages.map((msg, index) => {
                             const isMe = msg.sender === user._id;
                             return (
@@ -263,15 +345,15 @@ const ChatWidget = () => {
                                         borderTopRightRadius: isMe ? 0 : 8,
                                         borderTopLeftRadius: isMe ? 8 : 0,
                                         maxWidth: '85%',
-                                        bgcolor: isMe ? '#d9fdd3' : 'white', // WhatsApp green for sent
-                                        color: 'text.primary'
+                                        bgcolor: isMe ? '#E8E6E1' : 'primary.main',
+                                        color: isMe ? 'text.primary' : 'white'
                                     }}>
                                         <Typography variant="body2">{msg.message}</Typography>
                                         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 0.5, mt: 0.5 }}>
-                                            <Typography variant="caption" sx={{ color: isMe ? 'rgba(0,0,0,0.45)' : 'text.secondary', fontSize: '0.65rem' }}>
+                                            <Typography variant="caption" sx={{ color: isMe ? 'rgba(0,0,0,0.45)' : 'rgba(255,255,255,0.7)', fontSize: '0.65rem' }}>
                                                 {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                             </Typography>
-                                            {isMe && <DoneAllIcon sx={{ fontSize: 14, color: 'info.main' }} />}
+                                            {isMe && <DoneAllIcon sx={{ fontSize: 14, color: '#D4AF37' }} />}
                                         </Box>
                                     </Paper>
                                 </Box>

@@ -2,19 +2,12 @@ import React, { useState } from "react";
 import LeftHeader from "./LeftHeader";
 import RightHeader from "./RightHeader";
 import { useNavigate } from "react-router-dom";
-import { AppBar, Toolbar, Box, InputBase, IconButton, Paper } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
+import { AppBar, Toolbar, Box, InputBase, IconButton, Paper, Button, Typography } from '@mui/material';
+import { useLanguage } from "../../context/LanguageContext.jsx";
 
 const Header = () => {
-  const [keyword, setKeyword] = useState("");
   const navigate = useNavigate();
-
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (keyword.trim()) {
-      navigate(`/search?keyword=${keyword}`);
-    }
-  };
+  const { language, toggleLanguage, t } = useLanguage();
 
   return (
     <AppBar position="sticky" sx={{ bgcolor: 'primary.main', boxShadow: 'none' }}>
@@ -27,17 +20,67 @@ const Header = () => {
           minHeight: { xs: '80px', lg: '90px' } // Taller header for luxury feel
       }}>
         {/* Logo Section */}
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <img src="/assets/logo.png" alt="Twill Home" style={{ height: 50, filter: 'brightness(0) invert(1)' }} />
+        <Box 
+            sx={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                gap: 1.5,
+                cursor: 'pointer' 
+            }} 
+            onClick={() => navigate('/')}
+        >
+            {/* Circular W Icon */}
+            <Box sx={{
+                width: 45,
+                height: 45,
+                borderRadius: '50%',
+                border: '2px solid white',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontFamily: 'Playfair Display',
+                fontSize: '1.5rem',
+                fontWeight: 700,
+                color: 'white'
+            }}>
+                W
+            </Box>
+            
+            {/* TWILL HOME Text */}
+            <Box sx={{ display: 'flex', flexDirection: 'column', lineHeight: 1 }}>
+                <Typography 
+                    sx={{ 
+                        fontFamily: 'Playfair Display',
+                        fontSize: '1.1rem',
+                        fontWeight: 600,
+                        color: 'white',
+                        letterSpacing: '0.15em'
+                    }}
+                >
+                    TWILL
+                </Typography>
+                <Typography 
+                    sx={{ 
+                        fontFamily: 'Inter',
+                        fontSize: '0.65rem',
+                        fontWeight: 400,
+                        color: 'white',
+                        letterSpacing: '0.2em',
+                        mt: -0.3
+                    }}
+                >
+                    HOME
+                </Typography>
+            </Box>
         </Box>
 
         {/* Desktop Navigation Links */}
-        <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 4, ml: 6 }}>
-            {['SHOP', 'BATH', 'BEDROOM', 'LIVING', 'TRADE'].map((item) => (
+        <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 4, ml: 6, flexGrow: 1, justifyContent: 'center' }}>
+            {['shop', 'bath', 'bedroom', 'living', 'trade', 'contact'].map((key) => (
                 <Box 
                     component="a" 
-                    href={item === 'SHOP' ? '/' : '#'} 
-                    key={item}
+                    href={key === 'shop' ? '/' : '#'} 
+                    key={key}
                     sx={{ 
                         color: 'white', 
                         textDecoration: 'none', 
@@ -45,72 +88,31 @@ const Header = () => {
                         fontWeight: 500, 
                         letterSpacing: '0.1em',
                         transition: 'color 0.2s',
-                        '&:hover': { color: 'secondary.main' } 
+                        '&:hover': { color: 'secondary.main' },
+                        position: 'relative'
                     }}
                 >
-                    {item}
+                    {t(key)}
                 </Box>
             ))}
         </Box>
         
-        {/* Desktop Search */}
-        <Box sx={{ flexGrow: 1,  maxWidth: '400px', ml: 'auto', display: { xs: 'none', md: 'block' } }}>
-             <Paper
-                component="form"
-                onSubmit={handleSearch}
-                sx={{ 
-                    p: '2px 4px', 
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    width: '100%',
-                    height: 35,
-                    borderRadius: 0, // Squared
-                    bgcolor: 'rgba(255,255,255,0.1)', // Translucent
-                    color: 'white',
-                    borderBottom: '1px solid rgba(255,255,255,0.3)',
-                    boxShadow: 'none'
-                }}
-             >
-                <InputBase
-                    sx={{ ml: 1, flex: 1, fontSize: '0.8rem', color: 'white', '&::placeholder': { color: 'rgba(255,255,255,0.6)', opacity: 1 } }}
-                    placeholder="Search collections..."
-                    value={keyword}
-                    onChange={(e) => setKeyword(e.target.value)}
-                />
-                <IconButton type="submit" sx={{ p: '5px', color: 'white' }} aria-label="search">
-                    <SearchIcon fontSize="small" />
-                </IconButton>
-             </Paper>
-        </Box>
+        {/* Language Switcher */}
+        <Button 
+            onClick={toggleLanguage}
+            sx={{ 
+                color: 'white', 
+                minWidth: 'auto', 
+                ml: 2,
+                fontFamily: 'inherit',
+                fontSize: '0.85rem'
+            }}
+        >
+            {language === 'en' ? 'AR' : 'EN'}
+        </Button>
 
         <RightHeader />
       </Toolbar>
-      
-      {/* Mobile Search Bar */}
-      <Box sx={{ display: { xs: 'block', md: 'none' }, bgcolor: 'background.paper', p: 1.5, boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>
-         <Paper
-            component="form"
-            onSubmit={handleSearch}
-            sx={{ 
-                p: '2px 4px', 
-                display: 'flex', 
-                alignItems: 'center', 
-                width: '100%',
-                height: 40,
-                borderRadius: 2,
-                border: '1px solid',
-                borderColor: 'divider',
-                boxShadow: 'none'
-            }}
-         >
-            <InputBase
-                sx={{ ml: 1, flex: 1, fontSize: '0.875rem' }}
-                placeholder="What are you looking for?"
-                value={keyword}
-                onChange={(e) => setKeyword(e.target.value)}
-            />
-         </Paper>
-      </Box>
     </AppBar>
   );
 };

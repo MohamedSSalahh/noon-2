@@ -40,7 +40,7 @@ const Footer = () => {
             <Container maxWidth="xl">
                 <Grid container spacing={6} sx={{ mb: 8 }}>
                     {/* Brand Column */}
-                    <Grid item xs={12} md={4}>
+                    <Grid size={{ xs: 12, md: 4 }}>
                          <Box sx={{ mb: 3 }}>
                             <img src="/assets/logo.png" alt="Twill Home" style={{ height: 40, filter: 'brightness(0) invert(1)' }} />
                          </Box>
@@ -49,19 +49,19 @@ const Footer = () => {
                          </Typography>
                     </Grid>
 
-                    <Grid item xs={6} md={2}>
+                    <Grid size={{ xs: 6, md: 2 }}>
                         <FooterSection 
                             title="Shop" 
                             links={["Bath Collections", "Bedroom", "Living Room", "New Arrivals", "Best Sellers"]} 
                         />
                     </Grid>
-                    <Grid item xs={6} md={2}>
+                    <Grid size={{ xs: 6, md: 2 }}>
                         <FooterSection 
                             title="Support" 
                             links={["Help Center", "Shipping & Returns", "Care Guide", "Trade Program", "Contact Us"]} 
                         />
                     </Grid>
-                    <Grid item xs={12} md={4}>
+                    <Grid size={{ xs: 12, md: 4 }}>
                         <Typography variant="subtitle2" sx={{ color: 'white', fontWeight: 700, textTransform: 'uppercase', mb: 2, letterSpacing: '0.05em' }}>
                             Stay in the Loop
                         </Typography>

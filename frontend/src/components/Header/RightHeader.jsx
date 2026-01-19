@@ -46,16 +46,7 @@ const RightHeader = () => {
     return (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 1, lg: 2 }, justifyContent: 'flex-end' }}>
             
-            {/* Language */}
-            <Button 
-                sx={{ 
-                    ...actionButtonStyle, 
-                    display: { xs: 'none', lg: 'flex' } 
-                }}
-            >
-                العربية
-            </Button>
-
+           
             <Divider orientation="vertical" flexItem sx={{ height: 16, my: 'auto', display: { xs: 'none', lg: 'block' }, borderColor: 'rgba(255,255,255,0.3)' }} />
 
             {/* Authentication + Admin */}

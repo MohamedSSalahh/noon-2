@@ -133,7 +133,7 @@ const TwillHome = () => {
            
            <Grid container spacing={4}>
                {['Luxury Towels', 'Heirloom Blankets', 'Fine Linens'].map((item, index) => (
-                   <Grid item xs={12} md={4} key={item}>
+                   <Grid size={{ xs: 12, md: 4 }} key={item}>
                        <Box sx={{ textAlign: 'center', cursor: 'pointer', transition: 'transform 0.3s', '&:hover': { transform: 'translateY(-5px)' } }}>
                            <Box sx={{ 
                                height: 350, 
@@ -155,7 +155,7 @@ const TwillHome = () => {
                <Typography variant="h4" sx={{ fontFamily: '"Playfair Display", serif', mb: 8 }}>The Twill Difference</Typography>
                
                <Grid container spacing={4} justifyContent="center">
-                   <Grid item xs={12} md={4}>
+                   <Grid size={{ xs: 12, md: 4 }}>
                          <Box sx={{ border: '1px solid rgba(255,255,255,0.2)', p: 4, borderRadius: '50%', width: 200, height: 200, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                             <Typography variant="h2" sx={{ fontFamily: '"Playfair Display", serif' }}>W</Typography>
                          </Box>
@@ -170,10 +170,10 @@ const TwillHome = () => {
        <Box sx={{ bgcolor: '#081424', color: 'rgba(255,255,255,0.6)', py: 6 }}>
            <Container maxWidth="lg">
                <Grid container justifyContent="space-between" alignItems="center">
-                   <Grid item>
+                   <Grid>
                         <img src="/assets/logo.png" alt="Twill Home" style={{ height: 40, filter: 'brightness(0) invert(1)' }} />
                    </Grid>
-                   <Grid item>
+                   <Grid>
                        <Box sx={{ display: 'flex', gap: 2 }}>
                            <InstagramIcon />
                            <FacebookIcon />

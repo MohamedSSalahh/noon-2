@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { loginUser } from '../../redux/slices/authSlice';
+import { Box, TextField, Button, Typography, Paper, CircularProgress, Alert } from '@mui/material';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -26,86 +27,196 @@ const Login = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-noon-gray-100 py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-md w-full space-y-8 bg-white p-10 rounded-2xl shadow-card">
-                <div>
-                    <h2 className="mt-6 text-center text-3xl font-extrabold text-noon-black font-heading">
+        <Box sx={{ 
+            display: 'flex', 
+            minHeight: '100vh',
+            bgcolor: 'background.default'
+        }}>
+            {/* Left Side - Hero Image */}
+            <Box sx={{ 
+                flex: 1,
+                display: { xs: 'none', md: 'flex' },
+                position: 'relative',
+                backgroundImage: 'url(/assets/hero.png)',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                '&::before': {
+                    content: '""',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    bgcolor: 'rgba(11, 28, 51, 0.7)'
+                }
+            }}>
+                <Box sx={{ 
+                    position: 'relative', 
+                    zIndex: 1, 
+                    p: 6,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    color: 'white'
+                }}>
+                    {/* Logo */}
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 6 }}>
+                        <Box sx={{
+                            width: 50,
+                            height: 50,
+                            borderRadius: '50%',
+                            border: '2px solid white',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontFamily: 'Playfair Display',
+                            fontSize: '1.8rem',
+                            fontWeight: 700
+                        }}>
+                            W
+                        </Box>
+                        <Box>
+                            <Typography sx={{ fontFamily: 'Playfair Display', fontSize: '1.3rem', fontWeight: 600, letterSpacing: '0.15em' }}>
+                                TWILL
+                            </Typography>
+                            <Typography sx={{ fontSize: '0.75rem', letterSpacing: '0.2em', mt: -0.5 }}>
+                                HOME
+                            </Typography>
+                        </Box>
+                    </Box>
+
+                    <Typography variant="h3" sx={{ fontFamily: 'Playfair Display', mb: 2, lineHeight: 1.2 }}>
                         Welcome Back
-                    </h2>
-                    <p className="mt-2 text-center text-sm text-noon-gray-500">
-                        Sign in to your account
-                    </p>
-                </div>
-                <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+                    </Typography>
+                    <Typography variant="h6" sx={{ opacity: 0.9, fontWeight: 300 }}>
+                        Premium weaves for every home since 1989
+                    </Typography>
+                </Box>
+            </Box>
+
+            {/* Right Side - Login Form */}
+            <Box sx={{ 
+                flex: 1,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                p: 4
+            }}>
+                <Paper elevation={0} sx={{ 
+                    maxWidth: 450, 
+                    width: '100%',
+                    p: { xs: 4, sm: 6 },
+                    bgcolor: 'transparent'
+                }}>
+                    {/* Mobile Logo */}
+                    <Box sx={{ display: { xs: 'flex', md: 'none' }, alignItems: 'center', gap: 1.5, mb: 4, justifyContent: 'center' }}>
+                        <Box sx={{
+                            width: 45,
+                            height: 45,
+                            borderRadius: '50%',
+                            border: '2px solid',
+                            borderColor: 'primary.main',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontFamily: 'Playfair Display',
+                            fontSize: '1.5rem',
+                            fontWeight: 700,
+                            color: 'primary.main'
+                        }}>
+                            W
+                        </Box>
+                        <Box>
+                            <Typography sx={{ fontFamily: 'Playfair Display', fontSize: '1.1rem', fontWeight: 600, letterSpacing: '0.15em', color: 'primary.main' }}>
+                                TWILL
+                            </Typography>
+                            <Typography sx={{ fontSize: '0.65rem', letterSpacing: '0.2em', mt: -0.3, color: 'text.secondary' }}>
+                                HOME
+                            </Typography>
+                        </Box>
+                    </Box>
+
+                    <Typography variant="h4" sx={{ 
+                        fontFamily: 'Playfair Display', 
+                        mb: 1,
+                        textAlign: 'center',
+                        color: 'primary.main'
+                    }}>
+                        Sign In
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary" sx={{ mb: 4, textAlign: 'center' }}>
+                        Enter your credentials to access your account
+                    </Typography>
+
                     {error && (
-                        <div className="bg-red-50 border-l-4 border-noon-red p-4 mb-4">
-                            <p className="text-sm text-noon-red">{error}</p>
-                        </div>
+                        <Alert severity="error" sx={{ mb: 3 }}>
+                            {error}
+                        </Alert>
                     )}
-                    <div className="rounded-md shadow-sm space-y-4">
-                        <div>
-                            <label htmlFor="email-address" className="sr-only">Email address</label>
-                            <input
-                                id="email-address"
-                                name="email"
-                                type="email"
-                                autoComplete="email"
-                                required
-                                className="input-field"
-                                placeholder="Email address"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="password" className="sr-only">Password</label>
-                            <input
-                                id="password"
-                                name="password"
-                                type="password"
-                                autoComplete="current-password"
-                                required
-                                className="input-field"
-                                placeholder="Password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                        </div>
-                    </div>
 
-                    <div className="flex items-center justify-between">
-                        <div className="text-sm">
-                            <a href="#" className="font-medium text-noon-blue hover:text-blue-500">
-                                Forgot your password?
-                            </a>
-                        </div>
-                    </div>
+                    <form onSubmit={handleSubmit}>
+                        <TextField
+                            fullWidth
+                            label="Email Address"
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                            sx={{ mb: 3 }}
+                        />
+                        
+                        <TextField
+                            fullWidth
+                            label="Password"
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                            sx={{ mb: 2 }}
+                        />
 
-                    <div>
-                        <button
+                        <Box sx={{ textAlign: 'right', mb: 3 }}>
+                            <Link to="#" style={{ 
+                                color: '#D4AF37', 
+                                textDecoration: 'none',
+                                fontSize: '0.875rem'
+                            }}>
+                                Forgot password?
+                            </Link>
+                        </Box>
+
+                        <Button
                             type="submit"
+                            fullWidth
+                            variant="contained"
                             disabled={isLoading}
-                            className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-noon-blue hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-noon-blue transition-all duration-300 shadow-soft hover:shadow-hover"
+                            sx={{ 
+                                py: 1.5,
+                                bgcolor: 'primary.main',
+                                color: 'white',
+                                fontSize: '1rem',
+                                fontWeight: 600,
+                                letterSpacing: '0.05em',
+                                '&:hover': { bgcolor: 'primary.dark' }
+                            }}
                         >
-                            {isLoading ? (
-                                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                </svg>
-                            ) : 'Sign in'}
-                        </button>
-                    </div>
-                </form>
-                <div className="text-center mt-4">
-                    <p className="text-sm text-noon-gray-500">
-                        Don't have an account?{' '}
-                        <Link to="/signup" className="font-medium text-noon-blue hover:text-blue-500">
-                            Sign up
-                        </Link>
-                    </p>
-                </div>
-            </div>
-        </div>
+                            {isLoading ? <CircularProgress size={24} color="inherit" /> : 'SIGN IN'}
+                        </Button>
+
+                        <Typography variant="body2" sx={{ mt: 3, textAlign: 'center', color: 'text.secondary' }}>
+                            Don't have an account?{' '}
+                            <Link to="/signup" style={{ 
+                                color: '#D4AF37', 
+                                textDecoration: 'none',
+                                fontWeight: 600
+                            }}>
+                                Sign Up
+                            </Link>
+                        </Typography>
+                    </form>
+                </Paper>
+            </Box>
+        </Box>
     );
 };
 

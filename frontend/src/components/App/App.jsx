@@ -37,6 +37,7 @@ import Orders from '../User/Orders';
 
 import OrderSuccess from '../User/OrderSuccess';
 import Textiles from '../Textiles/Textiles';
+import { LanguageProvider } from '../../context/LanguageContext.jsx';
 
 function App() {
   const { user } = useSelector((state) => state.authState);
@@ -63,6 +64,7 @@ function App() {
   return (
     <div className="App max-w-[1920px] mx-auto w-full shadow-xl bg-white min-h-screen">
         <ThemeProvider theme={theme}>
+            <LanguageProvider>
             <CssBaseline />
             <ToastContainer position="top-right" autoClose={3000} />
             <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
@@ -141,6 +143,7 @@ function App() {
             </Routes>
                 <Footer />
             </BrowserRouter>
+            </LanguageProvider>
         </ThemeProvider>
     </div>
   );
