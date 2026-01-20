@@ -27,13 +27,13 @@ export class Login {
         next: (res: any) => {
           console.log('Login success', res);
            if (res.token) {
-             this.authService.saveToken(res.token);
-             this.authService.saveUser(res.data);
              // Check role to redirect
-             if(res.data.role === 'admin') {
+             if (res.data.role === 'manager') {
+                this.authService.saveToken(res.token);
+                this.authService.saveUser(res.data);
                 this.router.navigate(['/admin']);
              } else {
-                this.router.navigate(['/']);
+                alert('Access Denied: Only Managers can access the Admin Panel.');
              }
            }
         },

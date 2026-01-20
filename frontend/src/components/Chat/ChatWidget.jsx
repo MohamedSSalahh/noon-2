@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import io from 'socket.io-client';
-import { addMessage, fetchChatHistory } from '../../redux/slices/chatSlice';
+import { addMessage, fetchChatHistory, updateMessageId } from '../../redux/slices/chatSlice';
 import { SOCKET_URL } from '../../utils/apiConfig';
 import API_URL from '../../utils/apiConfig';
 import { Box, IconButton, Paper, Typography, TextField, Avatar, Fab, Badge, CircularProgress } from '@mui/material';
@@ -95,31 +95,67 @@ const ChatWidget = () => {
     }, [user, token]);
 
     useEffect(() => {
-        if (user && token && adminId) {
-            socketRef.current = io(SOCKET_URL);
-            socketRef.current.emit('join_chat', user._id);
+        if (user && token && adminId && conversationId) {
+            try {
+                if (!socketRef.current) {
+                     socketRef.current = io(SOCKET_URL, {
+                        reconnection: true,
+                        reconnectionDelay: 1000,
+                        reconnectionAttempts: 5
+                    });
+                    
+                    socketRef.current.on('connect', () => {
+                        console.log('Socket connected');
+                        socketRef.current.emit('join_conversation', conversationId);
+                    });
 
-            socketRef.current.on('receive_message', (message) => {
-                // Adapt message format if needed
-                dispatch(addMessage({ ...message, message: message.text })); 
-                setIsTyping(false); 
-            });
+                    socketRef.current.on('connect_error', (error) => {
+                        console.error('Socket connection error:', error);
+                    });
 
-            socketRef.current.on('typing', (senderId) => {
-                 if (senderId === adminId) setIsTyping(true);
-            });
+                    socketRef.current.on('receive_message', (message) => {
+                        // Ignore messages sent by self (handled optimistically)
+                        if (message.sender === user._id) return;
 
-            socketRef.current.on('stopTyping', (senderId) => {
-                 if (senderId === adminId) setIsTyping(false);
-            });
-            
-            dispatch(fetchChatHistory(adminId));
+                        // Check if message already exists to prevent duplicates (extra safety)
+                        const messageExists = messages.some(m => m._id === message._id);
+                        if (!messageExists) {
+                            dispatch(addMessage({ ...message, message: message.text })); 
+                        }
+                        setIsTyping(false); 
+                    });
 
-            return () => {
-                socketRef.current.disconnect();
-            };
+                    socketRef.current.on('typing', (senderId) => {
+                         if (senderId === adminId) setIsTyping(true);
+                    });
+
+                    socketRef.current.on('stopTyping', (senderId) => {
+                         if (senderId === adminId) setIsTyping(false);
+                    });
+                } else {
+                    // If socket exists (re-render), ensure we are in the room
+                    if (socketRef.current.connected) {
+                         socketRef.current.emit('join_conversation', conversationId);
+                    }
+                }
+                
+                // Fetch history
+                dispatch(fetchChatHistory(adminId));
+
+                return () => {
+                   if (socketRef.current) {
+                        socketRef.current.off('receive_message');
+                        socketRef.current.off('typing');
+                        socketRef.current.off('stopTyping');
+                        socketRef.current.disconnect();
+                        socketRef.current = null;
+                   }
+                };
+            } catch (error) {
+                console.error('Error initializing socket:', error);
+            }
         }
-    }, [user, token, adminId, dispatch]);
+    }, [user, token, adminId, conversationId, dispatch]);
 
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -129,12 +165,19 @@ const ChatWidget = () => {
         e.preventDefault();
         if (!messageInput.trim() || !adminId) return;
 
+        // Ensure conversation ID exists before sending
+        if (!conversationId) {
+            console.error("Conversation ID not initialized yet");
+            alert("Please wait for chat to initialize...");
+            return;
+        }
+
         const tempId = Date.now().toString();
         const messageText = messageInput;
         setMessageInput(''); // Clear input immediately
         setIsTyping(false);
         if (socketRef.current) {
-             socketRef.current.emit('stopTyping', { sender: user._id, receiver: adminId });
+             socketRef.current.emit('stopTyping', { conversationId, sender: user._id });
         }
 
         // Optimistically add
@@ -160,10 +203,22 @@ const ChatWidget = () => {
                 })
             });
             const data = await res.json();
-             // We could update the ID here if needed
+            
+            if (data.status !== 'success') {
+                throw new Error(data.message || 'Failed to send message');
+            }
+            
+            console.log('Message sent successfully:', data);
+            
+            // Update optimistic message with real ID
+            dispatch(updateMessageId({ 
+                tempId, 
+                realId: data.data._id, 
+                message: data.data.text 
+            }));
         } catch (err) {
             console.error("Failed to send message", err);
-            // Verify failure handling (remove optimistic message?)
+            alert('Failed to send message. Please try again.');
         }
     };
 
@@ -407,13 +462,13 @@ const ChatWidget = () => {
                                 if (!socketRef.current || !adminId) return;
 
                                 if (!typingTimeoutRef.current) {
-                                    socketRef.current.emit('typing', { sender: user._id, receiver: adminId });
+                                    socketRef.current.emit('typing', { conversationId, sender: user._id });
                                 }
                                 
                                 if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
 
                                 typingTimeoutRef.current = setTimeout(() => {
-                                    socketRef.current.emit('stopTyping', { sender: user._id, receiver: adminId });
+                                    socketRef.current.emit('stopTyping', { conversationId, sender: user._id });
                                     typingTimeoutRef.current = null;
                                 }, 2000);
                             }}

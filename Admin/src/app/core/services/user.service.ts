@@ -28,4 +28,8 @@ export class UserService {
   deleteUser(id: string) {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
+
+  updateUser(id: string, userData: any) {
+    return this.http.put<{ data: any }>(`${this.apiUrl}/${id}`, userData);
+  }
 }

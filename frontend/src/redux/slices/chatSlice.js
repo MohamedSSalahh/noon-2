@@ -51,7 +51,20 @@ const chatSlice = createSlice({
   initialState,
   reducers: {
     addMessage: (state, action) => {
-      state.messages.push(action.payload);
+      // Check if message already exists to prevent duplicates
+      const exists = state.messages.some(m => m._id === action.payload._id);
+      if (!exists) {
+        state.messages.push(action.payload);
+      }
+    },
+    updateMessageId: (state, action) => {
+       const { tempId, realId, message } = action.payload;
+       const index = state.messages.findIndex(m => m._id === tempId);
+       if (index !== -1) {
+           // We keep the existing message content but update the ID
+           // We also update the message content if provided
+           state.messages[index] = { ...state.messages[index], _id: realId, ...(message && { message }) };
+       }
     },
     setMessages: (state, action) => {
       state.messages = action.payload;
@@ -76,5 +89,5 @@ const chatSlice = createSlice({
   },
 });
 
-export const { addMessage, setMessages } = chatSlice.actions;
+export const { addMessage, updateMessageId, setMessages } = chatSlice.actions;
 export default chatSlice.reducer;

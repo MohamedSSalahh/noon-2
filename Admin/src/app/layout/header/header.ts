@@ -19,4 +19,8 @@ export class Header {
           console.log('Header: Current User:', this.authService.currentUser());
       });
   }
+
+  logout() {
+    this.authService.logout();
+  }
 }
