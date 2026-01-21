@@ -10,16 +10,27 @@ const Orders = () => {
 
     useEffect(() => {
         if (token) {
-            fetch(`${API_URL}/orders`, {
+            fetch(`${API_URL}/orders/`, {
                 headers: { Authorization: `Bearer ${token}` }
             })
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(`HTTP error! status: ${res.status}`);
+                }
+                return res.json();
+            })
             .then(data => {
-                setOrders(data.data || []);
+                console.log('Orders data:', data);
+                if (data.status === 'success') {
+                    setOrders(data.data || []);
+                } else {
+                    console.error('Failed to fetch orders:', data.message);
+                    setOrders([]);
+                }
                 setLoading(false);
             })
             .catch(err => {
-                console.error(err);
+                console.error('Error fetching orders:', err);
                 setLoading(false);
             });
         }
